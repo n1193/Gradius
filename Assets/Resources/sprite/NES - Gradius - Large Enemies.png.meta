@@ -1,0 +1,1048 @@
+fileFormatVersion: 2
+guid: 0faf6d34b057fbb409e9aa5ef7fb6761
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3828024063460153297
+    second: NES - Gradius - Large Enemies_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Factory1
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 359
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d7903e9a9fdf1530800000000000000
+      internalID: 3828024063460153297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory2
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 359
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd00c13f54bbe7d45b42a08ab61799e2
+      internalID: 2062938507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory3
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 359
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99f925ab2d99eef47884fd9b8382a360
+      internalID: -2107478652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory4
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 359
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc6a3f99c2b6a3347a39e808b9b121bd
+      internalID: -890841105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 358
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d70353008a8c75489c007a8041fcaf1
+      internalID: -1768345038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_5
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 358
+        width: 30
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6df11449712a2cc4cb546e788fcccd3a
+      internalID: 1105876749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 324
+        width: 23
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8a0222d3cb1ade4fa9e62ab6061c30c
+      internalID: -1669165585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossShot1
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 345
+        width: 16
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dfe872ae11347145b39c1ac390808c3
+      internalID: -1031173017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossShot2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 302
+        width: 24
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f9903c500250dc42b5bccd1c0bc8ddd
+      internalID: 292244003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_1
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 303
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17bf2b0062ab4f1449a4b46fa159dc86
+      internalID: 1752398421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_10
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 337
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e98f1fce04f804448a778eb3bf91da40
+      internalID: -30413291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_11
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 337
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc49a2e1202b5ce4f884b4717abd89c9
+      internalID: -678875971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_12
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 337
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f10b5f3568f514449ba3702b6e236800
+      internalID: -1408412050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_13
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 318
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f7ba5c7688ab6643aa02b70be8eff68
+      internalID: 1576644351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyShot
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 324
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41a350c1a95179e43805ddd9703b3a5f
+      internalID: 486654022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_15
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 304
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 833e8d15ba8409440900c8f229ee2169
+      internalID: -738659063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_16
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 304
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d85f2023ce619248a1ad3e439d0adb1
+      internalID: 94631037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_17
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 304
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7094e0f3ad729246b5b9afd4b602110
+      internalID: -1623654309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_18
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 249
+        width: 84
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca7b64141565dc2439bd119f9125665e
+      internalID: 1400095563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_19
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 249
+        width: 84
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41775b3185e0dde4baa92c74f4c66b34
+      internalID: 1655459476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_20
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 249
+        width: 84
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91ba47c171d4ee14fb8add80ee273882
+      internalID: -1751579777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_21
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 214
+        width: 66
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7a441266375e5f4a8b15e0f79f400c7
+      internalID: 551548977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_22
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 214
+        width: 66
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18425cb7a346df74bb0108084584e5c7
+      internalID: 439584100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_23
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 214
+        width: 66
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be1bb5e737d9be04da42443a35572813
+      internalID: -1851871458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_24
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 180
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09f45e1e5627ed448ba69b9f4e647027
+      internalID: 1119173265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_25
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 183
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b36d6997bae1f204a9408b475b8039df
+      internalID: -1139792781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_26
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 187
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48928113e4cc9eb4aa246b4af74f20bc
+      internalID: -1299534009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_27
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 188
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96f526681ebb3c1458c225f2bd39f032
+      internalID: -583923978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_28
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 82
+        width: 110
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 534e13bfc172a464baf504b65acd6fcf
+      internalID: 1586977887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDead_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 35
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d7dd4f2b56488b46b03c0fec4f41aee
+      internalID: -2023333400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDead_1
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 48
+        width: 20
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3837c8dbf3ad2f649bdba229c67b4237
+      internalID: 506691425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDead_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 43
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab321c367cd64de41a56693209baaf1c
+      internalID: -885841856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDead_3
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 41
+        width: 34
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c708d288c7ce7564f87dd6112b452ebb
+      internalID: 66518209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDead_4
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 40
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc3f3b672cc41114a9dc9b8b8cf63c8c
+      internalID: -298981213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDead_5
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 43
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f2ca71222f6f81409bc76eb11311f17
+      internalID: -230939797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NES - Gradius - Large Enemies_35
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 111
+        width: 64
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca55caf6ab6c97c4883f9b1feaf60b66
+      internalID: 1838522272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: dce58be499d36834d91e9a8045cbb72a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Boss1_0: -1669165585
+      Boss1_1: 1752398421
+      BossDead_0: -2023333400
+      BossDead_1: 506691425
+      BossDead_2: -885841856
+      BossDead_3: 66518209
+      BossDead_4: -298981213
+      BossDead_5: -230939797
+      BossShot1: -1031173017
+      BossShot2: 292244003
+      EnemyShot: 486654022
+      Factory1: 3828024063460153297
+      Factory2: 2062938507
+      Factory3: -2107478652
+      Factory4: -890841105
+      NES - Gradius - Large Enemies_10: -30413291
+      NES - Gradius - Large Enemies_11: -678875971
+      NES - Gradius - Large Enemies_12: -1408412050
+      NES - Gradius - Large Enemies_13: 1576644351
+      NES - Gradius - Large Enemies_15: -738659063
+      NES - Gradius - Large Enemies_16: 94631037
+      NES - Gradius - Large Enemies_17: -1623654309
+      NES - Gradius - Large Enemies_18: 1400095563
+      NES - Gradius - Large Enemies_19: 1655459476
+      NES - Gradius - Large Enemies_20: -1751579777
+      NES - Gradius - Large Enemies_21: 551548977
+      NES - Gradius - Large Enemies_22: 439584100
+      NES - Gradius - Large Enemies_23: -1851871458
+      NES - Gradius - Large Enemies_24: 1119173265
+      NES - Gradius - Large Enemies_25: -1139792781
+      NES - Gradius - Large Enemies_26: -1299534009
+      NES - Gradius - Large Enemies_27: -583923978
+      NES - Gradius - Large Enemies_28: 1586977887
+      NES - Gradius - Large Enemies_35: 1838522272
+      NES - Gradius - Large Enemies_36: -1437152569
+      NES - Gradius - Large Enemies_37: 1476655850
+      NES - Gradius - Large Enemies_38: -911507238
+      NES - Gradius - Large Enemies_39: -835818792
+      NES - Gradius - Large Enemies_4: -1768345038
+      NES - Gradius - Large Enemies_40: -281143250
+      NES - Gradius - Large Enemies_41: -140558810
+      NES - Gradius - Large Enemies_42: -1354220839
+      NES - Gradius - Large Enemies_43: -1102513182
+      NES - Gradius - Large Enemies_44: -699449811
+      NES - Gradius - Large Enemies_45: 804474696
+      NES - Gradius - Large Enemies_46: -934858220
+      NES - Gradius - Large Enemies_47: -2107945603
+      NES - Gradius - Large Enemies_48: -1411283915
+      NES - Gradius - Large Enemies_49: 1052094624
+      NES - Gradius - Large Enemies_5: 1105876749
+      NES - Gradius - Large Enemies_50: 647531442
+      NES - Gradius - Large Enemies_51: 1231435597
+      NES - Gradius - Large Enemies_52: -115274532
+      NES - Gradius - Large Enemies_53: 1061508828
+      NES - Gradius - Large Enemies_54: -223933249
+      NES - Gradius - Large Enemies_55: 1214109265
+      NES - Gradius - Large Enemies_56: 1723419750
+      NES - Gradius - Large Enemies_57: 1970194562
+      NES - Gradius - Large Enemies_58: -386253628
+      NES - Gradius - Large Enemies_59: -995019103
+      NES - Gradius - Large Enemies_60: 1396236761
+      NES - Gradius - Large Enemies_61: 655783867
+      NES - Gradius - Large Enemies_62: 1212652868
+      NES - Gradius - Large Enemies_63: 2007627898
+      NES - Gradius - Large Enemies_64: -581851360
+      NES - Gradius - Large Enemies_65: 436356132
+      NES - Gradius - Large Enemies_66: 1473627008
+      NES - Gradius - Large Enemies_67: -65238382
+      NES - Gradius - Large Enemies_68: 2120109581
+      NES - Gradius - Large Enemies_69: -1373651220
+      NES - Gradius - Large Enemies_70: 1325139602
+      NES - Gradius - Large Enemies_71: 664970066
+      NES - Gradius - Large Enemies_72: 1615297741
+      NES - Gradius - Large Enemies_73: 2074019973
+      NES - Gradius - Large Enemies_74: 976442810
+      NES - Gradius - Large Enemies_75: 289972723
+      NES - Gradius - Large Enemies_76: -505589111
+      NES - Gradius - Large Enemies_77: -1808929512
+      NES - Gradius - Large Enemies_78: 1666737100
+      NES - Gradius - Large Enemies_79: -1256829895
+      NES - Gradius - Large Enemies_80: -1642909572
+      NES - Gradius - Large Enemies_81: -936271356
+      NES - Gradius - Large Enemies_82: -1731616666
+      NES - Gradius - Large Enemies_83: -430785526
+      NES - Gradius - Large Enemies_84: 396511213
+      NES - Gradius - Large Enemies_85: -915277691
+      NES - Gradius - Large Enemies_86: 40130083
+      NES - Gradius - Large Enemies_87: -734839392
+      NES - Gradius - Large Enemies_88: 510106902
+      NES - Gradius - Large Enemies_89: -380605832
+      NES - Gradius - Large Enemies_90: -1411882031
+      NES - Gradius - Large Enemies_91: -474616881
+      NES - Gradius - Large Enemies_92: -901019939
+      NES - Gradius - Large Enemies_93: 1005828767
+      NES - Gradius - Large Enemies_94: 5384315
+      NES - Gradius - Large Enemies_95: -309898246
+      NES - Gradius - Large Enemies_96: 41188800
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

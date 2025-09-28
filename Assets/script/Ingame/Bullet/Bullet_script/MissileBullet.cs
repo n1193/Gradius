@@ -4,17 +4,22 @@ public class MissileBullet : Bullet
     private LayerMask groundLayer;
     RaycastHit2D hit;
 
-    private void Start()
+    protected override void Awake()
     {
         speed = 15f;
         dir = new Vector2(1, -1); // 初期方向を右に設定
         groundLayer = LayerMask.GetMask("Ground");
+        base.Awake();
     }
+
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(Tags.Ground) || collision.CompareTag(Tags.Enemy))
         {
-            Destroy(gameObject); // ミサイルを破壊
+            if (bulletPool != null & !isDead)
+                gameObject.SetActive(false);
+            else
+                Destroy(gameObject);
         }
 
     }

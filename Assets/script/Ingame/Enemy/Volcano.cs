@@ -5,7 +5,6 @@ using Zenject;
 
 public class Volcano : Enemy
 {
-    Action Shot; // 通常弾やレーザー弾の発射アクションのイベント
     const float shotIntervalTime = 0.3f; // 弾を発射する間隔
     float shotInterval;
     ScrollDirector scroll;
@@ -13,6 +12,9 @@ public class Volcano : Enemy
     [SerializeField] string signalId = "volcano";
     float lifetime = 16.0f; // 存在時間    
     float WaitTime = 7f; // 待機時間
+    BulletPool bulletPool1;
+    BulletPool bulletPool2;
+
     [Inject]
     void Construct(ScrollDirector scroll)
     {
@@ -22,20 +24,10 @@ public class Volcano : Enemy
     void Start()
     {
         shotInterval = shotIntervalTime;
-        foreach (var pos in ShotPosition)
-        {
-            pos.transform.parent = transform; // 親子関係を解除してワールド座標にする
-            Shot += () =>
-            {
-                weaponManager.Fire(
-                WeaponType.volcano,
-                pos.transform.position,
-                Vector3.left,
-                Tags.EnemyBullet,
-                BulletOwner.Enemy);
-            };
-        }
-        Shot += () => shotInterval = shotIntervalTime; // インターバルをリセット
+        bulletPool1 = weaponManager.CreateBulletPool(transform);
+        bulletPool1.Initialize(BulletOwner.Enemy,WeaponType.Volcano, -1,0.25f,SEType.None,Tags.EnemyBullet.ToString());
+        bulletPool2 = weaponManager.CreateBulletPool(transform);
+        bulletPool2.Initialize(BulletOwner.Enemy,WeaponType.Volcano, -1,0.25f,SEType.None,Tags.EnemyBullet.ToString());
     }
 
     void Update()
@@ -53,8 +45,8 @@ public class Volcano : Enemy
         shotInterval -= Time.deltaTime;
         if (shotInterval <= 0)
         {
-            if (Shot != null)
-                Shot?.Invoke(); // 弾を発射
+            bulletPool1.Fire(ShotPosition[0].transform.position,BulletOwner.Enemy); // 弾を発射
+            bulletPool2.Fire(ShotPosition[1].transform.position,BulletOwner.Enemy); // 弾を発射
         }
     }
     void isDead()

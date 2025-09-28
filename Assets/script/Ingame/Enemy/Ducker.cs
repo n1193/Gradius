@@ -28,24 +28,18 @@ class Ducker : Enemy
 
     Vector2 direction; // 移動方向
     float speed = 3f; // 移動速度
+    private BulletPool bulletPool; // トリガ（メイン＋各オプションが購読）
+    
     void Start()
     {
         bottomY = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.2f, 0f)).y;
         spriteRenderer = GetComponent<SpriteRenderer>();
         direction = new Vector2(3, 0);
         groundLayer = LayerMask.GetMask("Ground");
-        Shot = () =>
-        {
-            float bottomPosition = spriteRenderer.bounds.min.y;
-            float heightSize = spriteRenderer.bounds.size.y;
-            Vector3 currentPos = (playerController.transform.position - transform.position).normalized;
-            weaponManager.Fire(
-            WeaponType.Enemy,
-            transform.position,
-            currentPos,
-            Tags.EnemyBullet,
-            BulletOwner.Enemy);
-        };
+        
+        bulletPool = weaponManager.CreateBulletPool(transform);
+        bulletPool.Initialize(BulletOwner.Enemy, WeaponType.Enemy, 2,1f,SEType.None, Tags.EnemyBullet.ToString());
+        
         state = EnemyState.Move;
          if (transform.position.y > 0)
         {
@@ -87,7 +81,7 @@ class Ducker : Enemy
         if (shotInterval <= 0)
         {
             shotInterval = shotIntervalTime; // リセット
-            Shot?.Invoke(); // 弾を発射
+            bulletPool.Fire(transform.position, BulletOwner.Enemy);
             shotCount++;
             if (shotCount >= maxShotCount)
             {

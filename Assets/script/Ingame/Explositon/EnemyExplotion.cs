@@ -16,12 +16,12 @@ public class EnemyExplotion : MonoBehaviour
     {
         time += Time.deltaTime;
         int frame = Mathf.FloorToInt(time / changeInterval);
-  
-        if (frame > sprites.Length )
+
+        if (frame >= sprites.Length)
         {
             Destroy(gameObject);
+            return;
         }
         spriteRenderer.sprite = sprites[frame];
-
     }
 }

@@ -3,6 +3,7 @@ public class BossBullet : Bullet
 {
     private void Start()
     {
-        speed = 10f; // ダブル弾の速度
+        dir = Vector2.left;
+        speed = 20f; // ダブル弾の速度
     }
 }

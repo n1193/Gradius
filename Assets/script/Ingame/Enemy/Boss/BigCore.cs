@@ -38,6 +38,11 @@ class BigCore : Enemy
 
     int score = 10000; // 倒したときのスコア
     [SerializeField] ScrollDirector scroll;
+    private BulletPool bulletPool1; // トリガ（メイン＋各オプションが購読）
+    private BulletPool bulletPool2; // トリガ（メイン＋各オプションが購読）
+    private BulletPool bulletPool3; // トリガ（メイン＋各オプションが購読）
+    private BulletPool bulletPool4; // トリガ（メイン＋各オプションが購読）
+    float heightSize;
 
     [Inject]
     void Construct(ScrollDirector scroll)
@@ -47,7 +52,7 @@ class BigCore : Enemy
 
     void Awake()
     {
-
+        heightSize = spriteRenderer.bounds.size.y;
         isActive = false;
         activeSprite.SetActive(isActive);
 
@@ -65,34 +70,15 @@ class BigCore : Enemy
             new Vector3(0f, 0f,0f)
         };
 
-        Shot += () =>
-        {
-            float heightSize = spriteRenderer.bounds.size.y;
-            weaponManager.Fire(
-                WeaponType.Boss,
-                transform.position + new Vector3(0.8f, heightSize * 0.4f, 0),
-                Vector3.left,
-                Tags.EnemyBullet,
-                BulletOwner.Enemy);
-            weaponManager.Fire(
-                WeaponType.Boss,
-                transform.position + new Vector3(0, heightSize * 0.15f, 0),
-                Vector3.left,
-                Tags.EnemyBullet,
-                BulletOwner.Enemy);
-            weaponManager.Fire(
-                WeaponType.Boss,
-                transform.position + new Vector3(0, heightSize * -0.15f, 0),
-                Vector3.left,
-                Tags.EnemyBullet,
-                BulletOwner.Enemy);
-            weaponManager.Fire(
-                WeaponType.Boss,
-                transform.position + new Vector3(0.8f, heightSize * -0.4f, 0),
-                Vector3.left,
-                Tags.EnemyBullet,
-                BulletOwner.Enemy);
-        };
+        bulletPool1 = weaponManager.CreateBulletPool(transform);
+        bulletPool1.Initialize(BulletOwner.Enemy, WeaponType.Boss, 2,1f,SEType.None, Tags.EnemyBullet.ToString());
+        bulletPool2 = weaponManager.CreateBulletPool(transform);
+        bulletPool2.Initialize(BulletOwner.Enemy, WeaponType.Boss, 2,1f,SEType.None, Tags.EnemyBullet.ToString());
+        bulletPool3 = weaponManager.CreateBulletPool(transform);
+        bulletPool3.Initialize(BulletOwner.Enemy, WeaponType.Boss, 2,1f,SEType.None, Tags.EnemyBullet.ToString());
+        bulletPool4 = weaponManager.CreateBulletPool(transform);
+        bulletPool4.Initialize(BulletOwner.Enemy, WeaponType.Boss, 2,1f,SEType.None, Tags.EnemyBullet.ToString());
+
         clampYMax = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.8f, 0f)).y;
         clampYMin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.2f, 0f)).y;
         direction = Vector2.left;
@@ -154,7 +140,11 @@ class BigCore : Enemy
     {
         ShotDelay -= Time.deltaTime;
         if (ShotDelay > 0) return;
-        Shot?.Invoke(); // 弾を発射
+        bulletPool1.Fire(transform.position + new Vector3(0.8f, heightSize * 0.15f, 0), BulletOwner.Enemy);
+        bulletPool2.Fire(transform.position + new Vector3(0.8f, heightSize * 0.4f, 0), BulletOwner.Enemy);
+        bulletPool3.Fire(transform.position + new Vector3(0.8f, heightSize * -0.4f, 0), BulletOwner.Enemy);
+        bulletPool4.Fire(transform.position + new Vector3(0.8f, heightSize * -0.15f, 0), BulletOwner.Enemy);
+
         ShotDelay = ShotDelayMax;
     }
     void UpdateSprite()

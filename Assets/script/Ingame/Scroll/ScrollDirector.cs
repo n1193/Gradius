@@ -72,11 +72,10 @@ public class ScrollDirector : MonoBehaviour
             #if Unirrty_EDITOR
             if (Input.GetKey(KeyCode.I))
             {
-                X++;
+                X+=100;
             }
             #endif
-        }
-        
+        }        
         // すでに停止中なら到達チェックはしない
             if (IsPaused) return;
         // 次の Stop に到達したら開始

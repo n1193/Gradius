@@ -9,26 +9,17 @@ class Dee_01 : Enemy
     int spriteIndex = 0; // スプライトのインデックス
     Action Shot; // 通常弾やレーザー弾の発射アクションのイベント
     const float shotIntervalTime = 2.5f; // 弾を発射する間隔
-    float shotInterval = 60; // 弾を発射する間隔
+    float shotInterval = 60f; // 弾を発射する間隔
     Vector2 direction; // 移動方向
     float speed = 2f; // 移動速度
+    private BulletPool bulletPool; // トリガ（メイン＋各オプションが購読）
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         direction = new Vector2(1, 0);
-        Shot = () =>
-        {
-            float bottomPosition = spriteRenderer.bounds.min.y;
-            float heightSize = spriteRenderer.bounds.size.y;
-            // プレイヤーへの射線ベクトル
-            Vector3 dir = (playerController.transform.position - transform.position).normalized;
-            weaponManager.Fire(
-            WeaponType.Enemy,
-            transform.position,
-            dir,
-            Tags.EnemyBullet,
-            BulletOwner.Enemy);
-        };
+
+        bulletPool = weaponManager.CreateBulletPool(transform);
+        bulletPool.Initialize(BulletOwner.Enemy, WeaponType.Enemy, 2,1f,SEType.None, Tags.EnemyBullet.ToString());
         if (this.transform.position.y > 0)
         {
             spriteRenderer.flipY = true;
@@ -50,7 +41,7 @@ class Dee_01 : Enemy
         if (shotInterval <= 0)
         {
             shotInterval = shotIntervalTime; // リセット
-            Shot?.Invoke(); // 弾を発射
+            bulletPool.Fire(transform.position,BulletOwner.Enemy); // 弾を発射
         }
     }
     void UpdateSprite()

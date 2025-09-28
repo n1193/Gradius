@@ -1,11 +1,9 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-
 public class ShotManager : MonoBehaviour
 {
-    readonly List<Bullet> bullets = new();
     DiContainer _container;
 
     [Inject]
@@ -14,22 +12,17 @@ public class ShotManager : MonoBehaviour
         _container = container;
     }
 
-    public Bullet Spawn(GameObject prefab, Vector3 position, Vector3 direction, string tag, BulletOwner owner, float? overrideSpeed = null)
+    public Bullet SpawnFromPool(BulletPool pool, Vector3 position, Vector3 direction, string tag, BulletOwner owner)
     {
-        // 戻り値は Bullet コンポーネント
+        pool.Fire(position, direction, this, tag, owner);
+        return null; // 必要なら Poolから発射したBulletを返す設計に変更してもOK
+    }
+
+    public Bullet SpawnDirect(GameObject prefab, Vector3 position, Vector3 direction, string tag, BulletOwner owner)
+    {
         var b = _container.InstantiatePrefabForComponent<Bullet>(prefab, position, Quaternion.identity, this.transform);
-        b.Initialize(owner, this, direction, tag);
-        RegisterBullet(b);
+        b.Initialize(owner, null, this, direction, tag);
         return b;
     }
-
-    public void RegisterBullet(Bullet b)
-    {
-        if (b && !bullets.Contains(b)) bullets.Add(b);
-    }
-
-    public void RemoveBullet(Bullet b)
-    {
-        if (b) bullets.Remove(b);
-    }
 }
+*/

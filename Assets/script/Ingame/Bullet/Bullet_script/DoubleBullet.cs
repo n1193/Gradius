@@ -1,8 +1,11 @@
+using UnityEngine;
 
 public class DoubleBullet : Bullet
 {
-    private void Start()
+    protected override void Awake()
     {
-        speed = 50f; // ダブル弾の速度
+        dir = new Vector2(1, 1);
+        speed = 20f; // ダブル弾の速度
+        base.Awake();
     }
 }

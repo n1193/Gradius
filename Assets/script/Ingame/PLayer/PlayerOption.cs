@@ -17,8 +17,10 @@ public class PlayerOption : MonoBehaviour
     [SerializeField] List<Sprite> sprites = new List<Sprite>();
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    public Action<Vector3> mainShot; // トリガ（メイン＋各オプションが購読）
-    public Action<Vector3> subShot; // トリガ（メイン＋各オプションが購
+    private List<BulletPool> mainShotBulletPool; // トリガ（メイン＋各オプションが購読）
+    private BulletPool subShotBulletPool; // トリガ（メイン＋各オプションが購読）
+
+
     int spriteIndex = 0; // スプライトのインデックス
     int spriteChangeInterval = 30; // スプライトを変更する間隔
 
@@ -32,6 +34,8 @@ public class PlayerOption : MonoBehaviour
     }
     public void Initialize(PlayerTrail playerTrail1, Transform transform, OptionIndex index)
     {
+        mainShotBulletPool = new List<BulletPool>(); // ← 初期化！
+        mainShotBulletPool.Clear();
         this.playerTrail = playerTrail1;
         optionIndex = (int)index;
         player = transform;
@@ -59,15 +63,29 @@ public class PlayerOption : MonoBehaviour
         }
         spriteRenderer.sprite = sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
     }
-    public void SetMainShot(Action<Vector3> action)
+    public void FireMain()
     {
-        Debug.Log($"Option SetMainShot");
-        mainShot = action;
+        foreach (var pool in mainShotBulletPool)
+        {
+            pool.Fire(transform.position,BulletOwner.Player);
+        }
     }
-    public void SetSubShot(Action<Vector3> action)
+    public void FireSub() => subShotBulletPool?.Fire(transform.position,BulletOwner.Player);
+    public void CleanMainShot()
     {
-        subShot = action;
+        foreach (BulletPool obj in mainShotBulletPool)
+        {
+            obj.Dead();
+            Destroy(obj);
+        }
+        mainShotBulletPool.Clear();
     }
-    public void FireMain() => mainShot?.Invoke(transform.position);
-    public void FireSub() => subShot?.Invoke(transform.position);
+    public void AddMainShot(BulletPool bulletPool)
+    {
+        mainShotBulletPool.Add(bulletPool);
+    }
+    public void AddSbuShot(BulletPool bulletPool)
+    {
+        subShotBulletPool = bulletPool;
+    }
 }

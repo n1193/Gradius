@@ -74,11 +74,15 @@ class Hatches : Enemy
     }
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        hp--;
-        if (hp <= 0)
+        if (other.CompareTag(Tags.PlayerBullet))
         {
-            scoreManager?.AddScore(score);
-            Destroy(gameObject);
+            hp--;
+            if (hp <= 0)
+            {
+                scoreManager?.AddScore(score);
+                Instantiate(explosionEffectPrefab, transform.position, transform.rotation, this.gameObject.transform.parent); 
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject; // Zenjectの依存性注入を使用
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerTrail))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -37,9 +38,10 @@ public class PlayerController : MonoBehaviour
     public GameObject[] BulletArray = new GameObject[2];
     private Upgrade _upgrade;
     private SoundManager soundManager;
+    [SerializeField] private GameObject explosionPrefab;
 
-    private Action<Vector3> mainShot; // トリガ（メイン＋各オプションが購読）
-    private Action<Vector3> subShot; // トリガ（メイン＋各オプションが購読）
+    private List<BulletPool> mainShotBulletPool; // トリガ（メイン＋各オプションが購読）
+    private BulletPool subShotBulletPool; // トリガ（メイン＋各オプションが購読）
     DiContainer _container;
     [Inject]
     public void Construct(WeaponManager weaponManager, Upgrade upgrade, SoundManager soundManager, DiContainer container)
@@ -52,26 +54,18 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        mainShotBulletPool = new List<BulletPool>();
+        mainShotBulletPool.Clear();
         if (!rb2D) rb2D = GetComponent<Rigidbody2D>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!playerTrail) playerTrail = GetComponent<PlayerTrail>();
-
-
         rb2D.gravityScale = 0f;
         margin = new Vector3[]{ Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.1f, 0f)),
                                 Camera.main.ViewportToWorldPoint(new Vector3(0.9f, 0.9f, 0f)) };
         playerTrail.initialize(transform.position);
-        // メイン機発射
-        mainShot = (pos) =>
-        {
-            weaponManager.Fire(
-            WeaponType.Normal,
-            pos,
-            Vector3.right,
-            Tags.PlayerBullet,
-            BulletOwner.Player);
-            soundManager.SEPlay(SEType.PlayerShot, 0.5f);
-        };
+        BulletPool mainbulletPool = weaponManager.CreateBulletPool(transform);  // ←ここで new しない、上書きしない！
+        mainbulletPool.Initialize(BulletOwner.Player, WeaponType.Normal, 2,0.2f,SEType.PlayerShot, Tags.PlayerBullet.ToString());
+        mainShotBulletPool.Add(mainbulletPool);
     }
 
 
@@ -80,13 +74,17 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         _move = new Vector2(x, y).normalized;
-
         ChangeSprite(y);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            FireMain();
-            FireSub();
+            Debug.Log("Fire Pressed");
+            foreach (var pool in mainShotBulletPool)
+            {
+                pool.Fire(transform.position,BulletOwner.Player);
+            }
+            subShotBulletPool?.Fire(transform.position,BulletOwner.Player);
+
             if (_options != null)
             {
                 foreach (var opt in _options)
@@ -98,14 +96,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void FireMain() => mainShot?.Invoke(transform.position);
-    public void FireSub() => subShot?.Invoke(transform.position);
-
     void FixedUpdate()
     {
-        // 速度適用は FixedUpdate で
         rb2D.linearVelocity = _move * baseSpeed;
-
         if (_move == Vector2.zero)
         {
             rb2D.linearVelocity = Vector2.zero;
@@ -148,72 +141,90 @@ public class PlayerController : MonoBehaviour
         _option.Initialize(playerTrail, transform, (OptionIndex)(_options.Count - 1));
         _option.UpdatePosition();
         _options.Add(_option);
-        UpdateOptionsWeapon();
+
+        foreach (BulletPool obj in mainShotBulletPool)
+        {
+            BulletPool mainBulletPool = weaponManager.CreateBulletPool(_option.gameObject.transform);
+            mainBulletPool.CopySettingsFrom(obj);
+            _option.AddMainShot(mainBulletPool);
+        }
+        if (subShotBulletPool != null)
+        {
+            BulletPool subBulletPool = weaponManager.CreateBulletPool(_option.gameObject.transform);
+            subBulletPool.CopySettingsFrom(subShotBulletPool);
+            _option.AddMainShot(subBulletPool);
+        }
     }
-    void UpdateOptionsWeapon()
+    void UpdateOptionMainWeapon(BulletPool _bulletPool)
     {
-        if (_options == null) return;
+        foreach (var opt in _options)
+        {
+            if (opt == null) continue;
+            BulletPool bulletPool = weaponManager.CreateBulletPool(opt.transform);
+            bulletPool.CopySettingsFrom(_bulletPool);
+            opt.AddMainShot(bulletPool);
+        }
+    }
+    void UpdateOptionSubWeapon(BulletPool _bulletPool)
+    {
+        foreach (var opt in _options)
+        {
+            if (opt == null) continue;
+            BulletPool bulletPool = weaponManager.CreateBulletPool(opt.transform);
+            bulletPool.CopySettingsFrom(_bulletPool);
+            opt.AddMainShot(bulletPool);
+        }
+    }
+    void CleanMainShot()
+    {
+        foreach (BulletPool obj in mainShotBulletPool)
+        {
+            obj.Dead();
+            Destroy(obj);
+        }
+        mainShotBulletPool.Clear();
 
         foreach (var opt in _options)
         {
             if (opt == null) continue;
-            opt.SetMainShot(mainShot);
-            opt.SetSubShot(subShot);
+            opt.CleanMainShot();
         }
     }
 
     public void ChangeWeapon(UpgradeData.UpgradeType upgrade)
     {
-        Debug.Log($"ChangeWeapon: {upgrade}");
         switch (upgrade)
         {
             case UpgradeData.UpgradeType.Speed:
                 baseSpeed = Mathf.Min(baseSpeed + 2f, maxSpeed);
                 break;
             case UpgradeData.UpgradeType.Missile:
-                subShot = (pos) =>
-                {
-                    weaponManager.Fire(
-                    WeaponType.Missile,
-                    pos,
-                    new Vector3(1, -1f, 0).normalized,
-                    Tags.PlayerBullet,
-                    BulletOwner.Player);
-                };
+                subShotBulletPool = weaponManager.CreateBulletPool(transform);  // ←ここで new しない、上書きしない！
+                subShotBulletPool.Initialize(BulletOwner.Player, WeaponType.Missile, 1,1f, SEType.None,Tags.PlayerBullet.ToString());
+                UpdateOptionSubWeapon(subShotBulletPool);
                 break;
 
             case UpgradeData.UpgradeType.Double:
-                mainShot = (pos) =>
-                {
-                    weaponManager.Fire(
-                    WeaponType.Normal,
-                    pos,
-                    Vector3.right,
-                    Tags.PlayerBullet,
-                    BulletOwner.Player);
-                    weaponManager.Fire(
-                    WeaponType.Normal,
-                    pos,
-                    new Vector3(1, 1f, 0),
-                    Tags.PlayerBullet,
-                    BulletOwner.Player);
-                    soundManager.SEPlay(SEType.PlayerShot, 0.5f);
-                };
+                CleanMainShot();
+                var bulletPool1 = weaponManager.CreateBulletPool(transform);
+                bulletPool1.Initialize(BulletOwner.Player, WeaponType.Normal, 2,0.2f,SEType.PlayerShot,Tags.PlayerBullet);
+                mainShotBulletPool.Add(bulletPool1);
+                UpdateOptionMainWeapon(bulletPool1);
+                var bulletPool2 = weaponManager.CreateBulletPool(transform);
+                bulletPool2.Initialize(BulletOwner.Player, WeaponType.Double, 2,0.2f,SEType.None,Tags.PlayerBullet);
+                mainShotBulletPool.Add(bulletPool2);
+                UpdateOptionMainWeapon(bulletPool2);
                 _upgrade.SetLevel(UpgradeData.UpgradeType.Laser, 0);
+                
                 break;
 
             case UpgradeData.UpgradeType.Laser:
-                mainShot = (pos) =>
-                {
-                    weaponManager.Fire(
-                    WeaponType.Laser,
-                    pos,
-                    Vector3.right,
-                    Tags.PlayerBullet,
-                    BulletOwner.Player);
-                    soundManager.SEPlay(SEType.Laser, 0.5f);
-                };
+                CleanMainShot();
+                BulletPool bulletPool3 = weaponManager.CreateBulletPool(transform);
+                bulletPool3.Initialize(BulletOwner.Player, WeaponType.Laser, 1,0.25f,SEType.Laser,Tags.PlayerBullet.ToString());
+                mainShotBulletPool.Add(bulletPool3);
                 _upgrade.SetLevel(UpgradeData.UpgradeType.Double, 0);
+                UpdateOptionMainWeapon(bulletPool3);
                 break;
 
             case UpgradeData.UpgradeType.Option:
@@ -225,7 +236,6 @@ public class PlayerController : MonoBehaviour
                 shield?.ActivateShield();
                 break;
         }
-        UpdateOptionsWeapon();
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -242,8 +252,11 @@ public class PlayerController : MonoBehaviour
     }
     void Die()
     {
-        Vector3 pos = transform.position;   
-      
-        SceneManager.LoadScene(SceneType.TitleScene.ToString());
+        Vector3 pos = transform.position;
+        soundManager.SEPlay(SEType.PlayerDead);
+        Instantiate(explosionPrefab, transform.position, transform.rotation, transform.parent);
+        spriteRenderer.enabled = false;
+        gameObject.SetActive(false);
+
     }
 }

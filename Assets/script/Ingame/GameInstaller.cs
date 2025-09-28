@@ -4,7 +4,6 @@ using Zenject;
 
 public class InGameInstaller : MonoInstaller
 {
-    [SerializeField] private ShotManager shotManager;
     [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Upgrade upgrade;
@@ -17,8 +16,6 @@ public class InGameInstaller : MonoInstaller
     [SerializeField] private SoundManager soundManager;
     public override void InstallBindings()
     {
-        Debug.Log("InGameInstaller InstallBindings called");
-        Container.Bind<ShotManager>().FromInstance(shotManager).AsSingle();
         //Container.Bind<TimeManager>().FromInstance(timeManager).AsSingle();
         // ここに他のマネージャーもバインド…
         Container.Bind<WeaponManager>().FromInstance(weaponManager).AsSingle();

@@ -3,15 +3,21 @@ using UnityEngine;
 
 public class LaserBullet : Bullet
 {
-    private void Start()
+    protected override void Awake()
     {
-        speed = 50f; // レーザー弾の速度
+        dir = Vector2.right;
+        speed = 40f; // レーザー弾の速度
+        base.Awake();
     }
     protected override void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(Tags.Ground))
         {
-            Destroy(gameObject); // 弾を削除
+            if (bulletPool != null & !isDead)
+                gameObject.SetActive(false);
+            else
+                Destroy(gameObject);
+
         }
     }
 }

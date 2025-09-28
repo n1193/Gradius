@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using Zenject;
 
 public class VolcanoBullet : Bullet
@@ -9,28 +8,47 @@ public class VolcanoBullet : Bullet
     //public Vector2 gravityRange = new Vector2(9.81f, 9.81f * 1.5f); // 重力加速度 [min,max] 
     public float gravity = 9.81f;  // m/s^2（Physics2D.gravity に合わせる）
     ScoreManager scoreManager;
+    
+    public float fallMultiplier = 2.5f; // 落下時だけ重力を何倍にするか
+    float _baseGravityScale;
 
     [Inject]
     void Construct(ScoreManager scoreManager)
     {
         this.scoreManager = scoreManager;
     }
-
-    public override void Initialize(BulletOwner owner, ShotManager mgr, Vector3 direction,
-                                    string tag = Tags.EnemyBullet, float? overrideSpeed = null)
+    public override void Initialize(BulletOwner owner, BulletPool bulletPool, string tag = Tags.PlayerBullet, float? overrideSpeed = null)
     {
+        this.bulletPool = bulletPool;
         this.owner = owner;
-        this.shotManager = mgr;
-        this.dir = Vector2.up;                // 今回は使わないが一応
-        this.speed = overrideSpeed ?? speed;  // （参照されるなら保持）
+        this.dir = Vector2.up;
+        this.speed = overrideSpeed ?? speed;
         gameObject.tag = tag;
-        //gravity = Random.Range(gravityRange.x, gravityRange.y);
-        rb.gravityScale = gravity / Mathf.Abs(Physics2D.gravity.y);
-
-        float vy = Random.Range(upSpeedRange.x, upSpeedRange.y);
-        float vx = Random.Range(horizSpeedRange.x, horizSpeedRange.y);
-        rb.linearVelocity = new Vector2(vx, vy);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.simulated = true;
+        rb.linearDamping = 0f;   // 旧 drag
+        rb.angularDamping = 0f;   // 旧 angularDrag
+        rb.gravityScale   = _baseGravityScale;
+        _baseGravityScale = gravity / Mathf.Abs(Physics2D.gravity.y);
+        float vy = UnityEngine.Random.Range(upSpeedRange.x, upSpeedRange.y);
+        float vx = UnityEngine.Random.Range(horizSpeedRange.x, horizSpeedRange.y);
+        dir = new Vector2(vx, vy);
     }
+    protected override void FixedUpdate()
+    {
+        if (dir != Vector2.zero)
+        {
+            rb.linearVelocity = dir;
+            dir = Vector2.zero;
+        }
+        // ★ ここで落下中だけ重力強化
+        if (rb.linearVelocity.y <= 0f)
+            rb.gravityScale = _baseGravityScale * fallMultiplier; // 速く落ちる
+        else
+            rb.gravityScale = _baseGravityScale;                  // 上昇は今のまま
+    }
+
+
 
     protected override void OnBecameInvisible()
     {
@@ -40,14 +58,12 @@ public class VolcanoBullet : Bullet
     {
         if (other.CompareTag(Tags.PlayerBullet))
         {
-            shotManager?.RemoveBullet(this);
             scoreManager.AddScore(100);
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             Destroy(gameObject);
         }
-        if (other.CompareTag(Tags.Ground) || other.CompareTag(Tags.Player))
+        if (other.CompareTag(Tags.Ground))
         {
-            shotManager?.RemoveBullet(this);
             Destroy(gameObject);
         }
     }

@@ -8,8 +8,6 @@ public enum BulletOwner { Player, Enemy }
 [RequireComponent(typeof(BoxCollider2D))]
 public abstract class Bullet : MonoBehaviour
 {
-    protected ShotManager shotManager;
-
     [Header("Config")]
     [SerializeField] protected float speed;   // ← プレハブ既定値 or 生成時オーバーライド
 
@@ -21,9 +19,12 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected BoxCollider2D col;
     [SerializeField] protected SpriteRenderer spriteRenderer;
+    public bool isDead;
+    protected BulletPool bulletPool;
 
     protected virtual void Awake()
     {
+        isDead = false;
         if (!rb) rb = GetComponent<Rigidbody2D>();
         if (!col) col = GetComponent<BoxCollider2D>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
@@ -32,40 +33,45 @@ public abstract class Bullet : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; ;
         col.isTrigger = true;
     }
 
-    public virtual void Initialize(BulletOwner owner, ShotManager mgr, Vector3 direction,
-                                   string tag = Tags.PlayerBullet, float? overrideSpeed = null)
+    public virtual void Initialize(BulletOwner owner, BulletPool bulletPool, string tag = Tags.PlayerBullet, float? overrideSpeed = null)
     {
         this.owner = owner;
-        shotManager = mgr;
-        dir = ((Vector2)direction).normalized;
+        this.bulletPool = bulletPool;
         gameObject.tag = tag;
-
-        // 生成時に与えられた速度があればそれを採用、なければプレハブの既定値を使う
-        speed = overrideSpeed ?? speed;
-
-        // ★ 正しいAPI：velocity
+        refrash();
+    }
+    public virtual void refrash()
+    {
+        isDead = false;
+        gameObject.SetActive(true);
+    }
+   protected virtual void FixedUpdate()
+    {
         rb.linearVelocity = dir * speed;
     }
     protected virtual void OnBecameInvisible()
     {
-        shotManager?.RemoveBullet(this);
-        Destroy(gameObject);
+        if (bulletPool != null && !isDead)
+            bulletPool.Return(this);
+        else
+            Destroy(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        // ……（ここはそのままでOK。Layerで極力切るのがベスト）
         if (owner == BulletOwner.Player)
         {
             if (other.CompareTag(Tags.Player) || other.CompareTag(Tags.PlayerBullet)) return;
             if (other.CompareTag(Tags.Enemy) || other.CompareTag(Tags.Ground))
             {
-                shotManager?.RemoveBullet(this);
-                Destroy(gameObject);
+                if (bulletPool != null&!isDead)
+                    gameObject.SetActive(false);
+                else
+                    Destroy(gameObject);
             }
         }
         else
@@ -73,9 +79,15 @@ public abstract class Bullet : MonoBehaviour
             if (other.CompareTag(Tags.Enemy) || other.CompareTag(Tags.EnemyBullet)) return;
             if (other.CompareTag(Tags.Player) || other.CompareTag(Tags.Ground))
             {
-                shotManager?.RemoveBullet(this);
-                Destroy(gameObject);
+                if (bulletPool != null && !isDead)
+                    gameObject.SetActive(false);
+                else
+                    Destroy(gameObject);
             }
         }
+    }
+    public void Die()
+    { 
+        isDead = true;
     }
 }

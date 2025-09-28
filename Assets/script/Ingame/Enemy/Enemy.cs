@@ -12,8 +12,8 @@ public class Enemy : MonoBehaviour
     DropGroup _dropGroup;
     public void SetDropGroup(DropGroup g) => _dropGroup = g;
     private SoundManager soundManager;
-    [SerializeField]private  GameObject explosionEffectPrefab;
-
+    [SerializeField]protected GameObject explosionEffectPrefab;
+    
     [Inject]
     void Construct(PlayerController playerController, WeaponManager weaponManager, ScoreManager scoreManager, SoundManager soundManager)
     {
@@ -31,8 +31,6 @@ public class Enemy : MonoBehaviour
             soundManager.SEPlay(SEType.EnemyDestroy, 0.3f);
         }
     }
-
-    // ▼ 変更：死因の引数を追加（最小差分）
     private void Die(bool byPlayer)
     {
         //ScoreManager.Instance?.AddScore(score);

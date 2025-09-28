@@ -6,10 +6,14 @@ public class GlobalInstaller : MonoInstaller
     public SoundManager soundManagerPrefab;
     public override void InstallBindings()
     {
-        Debug.Log("✅ GlobalInstaller: InstallBindings() called");
+        Debug.Log("🛠 InstallBindings called");
         Container.Bind<SoundManager>()
-                 .FromComponentInNewPrefab(soundManagerPrefab) // ← これ！
-                 .AsSingle()
-                 .NonLazy();
+            .FromComponentInNewPrefab(soundManagerPrefab)
+            .AsSingle()
+            .NonLazy();
+    }
+    void Awake()
+    {
+        Debug.Log("🚀 GlobalInstaller Start() called");
     }
 }

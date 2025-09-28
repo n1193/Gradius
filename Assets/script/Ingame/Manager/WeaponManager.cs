@@ -1,68 +1,53 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using Unity.IO.LowLevel.Unsafe;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
-public enum WeaponType { Normal, Laser, Missile, Double,Enemy,Boss,volcano }
 
-[Serializable]
+public enum WeaponType { Normal, Laser, Missile, Double, Enemy, Boss, Volcano }
+
+[System.Serializable]
 public class WeaponEntry
 {
     public WeaponType weaponType;
-    public GameObject weaponPrefab;
+    public GameObject bulletPrefab;
 }
 
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField] List<WeaponEntry> weapons = new();
-    [SerializeField] ShotManager shotManager;
+    [SerializeField] private List<WeaponEntry> weapons = new();
+    [SerializeField] private BulletPool bulletPool;
+    private Dictionary<WeaponType, GameObject> _weaponMap = new();
+    private DiContainer diContainer;
 
-    Dictionary<WeaponType, GameObject> _map=new();
     [Inject]
-    public void Construct(ShotManager shotManager)
+    void Construct(DiContainer diContainer)
     {
-        this.shotManager = shotManager;
+        this.diContainer = diContainer;
     }
 
     void Awake()
     {
-        _map = weapons?.Where(w => w.weaponPrefab)
-                       .ToDictionary(w => w.weaponType, w => w.weaponPrefab)
-               ?? new Dictionary<WeaponType, GameObject>();
+        foreach (var weapon in weapons)
+        {
+            if (weapon != null && weapon.bulletPrefab != null)
+            {
+                _weaponMap[weapon.weaponType] = weapon.bulletPrefab;
+            }
+        }
     }
 
-    public void Fire(WeaponType type, Vector3 pos, Vector3 dir,
-                     string tag = Tags.PlayerBullet, BulletOwner owner = BulletOwner.Player,
-                     float? speed = null)
+    public Bullet GetBulletPrefab(WeaponType type)
     {
-        if (!_map.TryGetValue(type, out var prefab) || !prefab)
+        if (_weaponMap.TryGetValue(type, out GameObject prefab))
         {
-            Debug.LogError($"Weapon prefab not found: {type}");
-            return;
+            Debug.Log($"[WeaponManager] weaponType: {type}, hasPrefab: {_weaponMap.ContainsKey(type)}");
+            return prefab.GetComponent<Bullet>();
         }
-        shotManager.Spawn(prefab, pos, dir, tag, owner, speed);
+        return null;
     }
-
-    void OnValidate() => BuildMap();
-
-    void BuildMap()
+    public BulletPool CreateBulletPool(Transform transform)
     {
-        _map.Clear();
-        if (weapons == null) return;
-
-        var seen = new HashSet<WeaponType>();
-        for (int i = 0; i < weapons.Count; i++)
-        {
-            var w = weapons[i];
-            if (w == null) continue;
-
-            if (!seen.Add(w.weaponType))
-                Debug.LogWarning($"[WeaponManager] Duplicate entry for {w.weaponType} (index {i}). Last one wins.");
-
-            if (!w.weaponPrefab)
-                Debug.LogWarning($"[WeaponManager] Missing prefab for {w.weaponType} (index {i}).");
-
-            if (w.weaponPrefab) _map[w.weaponType] = w.weaponPrefab; // 重複は最後で上書き
-        }
+        return diContainer.InstantiatePrefabForComponent<BulletPool>(bulletPool);
     }
 }

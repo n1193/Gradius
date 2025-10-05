@@ -32,7 +32,7 @@ public class SceneRouter : MonoBehaviour
         isLoading = true;
 
         // 暗転
-        yield return Fade(1f);
+        yield return Fade(2f);
 
         // 非同期ロード
         var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);

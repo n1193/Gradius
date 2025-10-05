@@ -28,11 +28,12 @@ public class VolcanoBullet : Bullet
         rb.simulated = true;
         rb.linearDamping = 0f;   // 旧 drag
         rb.angularDamping = 0f;   // 旧 angularDrag
-        rb.gravityScale   = _baseGravityScale;
+        rb.gravityScale = _baseGravityScale;
         _baseGravityScale = gravity / Mathf.Abs(Physics2D.gravity.y);
         float vy = UnityEngine.Random.Range(upSpeedRange.x, upSpeedRange.y);
         float vx = UnityEngine.Random.Range(horizSpeedRange.x, horizSpeedRange.y);
         dir = new Vector2(vx, vy);
+        gameObject.tag = Tags.VolcanoBullet;
     }
     protected override void FixedUpdate()
     {
@@ -59,7 +60,6 @@ public class VolcanoBullet : Bullet
         if (other.CompareTag(Tags.PlayerBullet))
         {
             scoreManager.AddScore(100);
-            other.gameObject.SetActive(false);
             Destroy(gameObject);
         }
         if (other.CompareTag(Tags.Ground))

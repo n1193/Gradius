@@ -10,8 +10,11 @@ public class ScrollDirector : MonoBehaviour
     public Volcano volcanoPrefab;
     [SerializeField]public GameObject volcanoInstancePoint;
     public DiContainer _container;
+    [SerializeField]public UVScroller uVScroller;
 
-    private float[] checkpointXs = { 130f, 200f, 250f };
+    SoundManager soundManager;
+
+    private float[] checkpointXs = { 0f, 130f, 250f };
     private int currentCheckpointIndex = -1;
     public float CurrentCheckpointX { get; private set; } = 0f;
 
@@ -71,9 +74,10 @@ public class ScrollDirector : MonoBehaviour
     Coroutine _timedPauseCo;
 
     [Inject]
-    void Construct(DiContainer container)
+    void Construct(DiContainer container, SoundManager soundManager)
     {
         _container = container;
+        this.soundManager = soundManager;
     }
     void Start()
     {
@@ -100,6 +104,7 @@ public class ScrollDirector : MonoBehaviour
         if (_nextStopIndex < stops.Count && X + Eps >= stops[_nextStopIndex].x)
         {
             var s = stops[_nextStopIndex++];
+            uVScroller.SetStop(true);
             switch (s.kind)
             {
                 case StopKind.Timed:
@@ -110,6 +115,7 @@ public class ScrollDirector : MonoBehaviour
                 case StopKind.WaitSignal:
                     if (stops[_nextStopIndex - 1].signalId == "volcano")
                     {
+                        Debug.Log("火山を作った");
                         _container.InstantiatePrefabForComponent<Volcano>(volcanoPrefab, volcanoInstancePoint.transform.position, Quaternion.identity, volcanoInstancePoint.transform);
                     }
                     AddPause();
@@ -147,6 +153,7 @@ public class ScrollDirector : MonoBehaviour
         if (!string.IsNullOrEmpty(_waitingSignal) && _waitingSignal == id)
         {
             _waitingSignal = null;
+            uVScroller.SetStop(false);
             RemovePause();
             if (logPause) Debug.Log($"[ScrollDirector] WaitSignal end id={id} (PauseCount={_pauseCounter})");
         }
@@ -223,9 +230,8 @@ public class ScrollDirector : MonoBehaviour
         _timedPauseCo = null;
     }
     // ScrollDirector.cs に追記
-    public void SetScrollX()
+    public float SetScrollX()
     {
-        
         X = checkpointXs[currentCheckpointIndex];
         // 取りこぼし防止：すでに通過済みのStopをスキップ
         while (_nextStopIndex < stops.Count && X + Eps >= stops[_nextStopIndex].x)
@@ -234,6 +240,19 @@ public class ScrollDirector : MonoBehaviour
         if (_timedPauseCo != null) { StopCoroutine(_timedPauseCo); _timedPauseCo = null; }
         _pauseCounter = 0;
         if (logPause) Debug.Log($"[ScrollDirector] SetScrollX: X={X}, nextStop={_nextStopIndex}");
+        if (currentCheckpointIndex == 0)
+        {
+            soundManager.StartSequenceFrom(BGMType.Ingame1);
+        }
+        else if (currentCheckpointIndex == 1)
+        {
+            soundManager.StartSequenceFrom(BGMType.Ingame2);
+        }
+        else
+        {
+            soundManager.StartSequenceFrom(BGMType.Boss);
+        }
+        return X;
     }
 
 #if UNITY_EDITOR

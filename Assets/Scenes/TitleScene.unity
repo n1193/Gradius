@@ -902,7 +902,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlobalInstaller
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6358080030057864054, guid: ccd3d076aa6eb00468262182a1f491be, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

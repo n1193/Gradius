@@ -11,11 +11,22 @@ public enum SEType { None = -1,Title,PlayerShot, Damage, EnemyDamage, Upgrade, B
 [Serializable] public class BGMEntry { public BGMType type; public AudioClip clip; }
 [Serializable] public class SEEntry  { public SEType  type; public AudioClip clip; }
 
+public enum RespawnMusicPolicy {
+    ResumeFromTimestamp,   // 直前の位置から続き再生
+    RestartCurrentTrack,   // 現在曲の頭から
+    StartFromSpecificTrack // 任意の曲（例：2曲目=Ingame2）から
+}
+
+public struct BgmPointer {
+    public BGMType type;
+    public int timeSamples;        // サンプル数で保持（精度◎）
+    public BgmPointer(BGMType t, int s) { type = t; timeSamples = s; }
+}
+
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] List<BGMEntry> bgmclip = new();
     [SerializeField] List<SEEntry> seclip = new();
-
     AudioSource[] bgmAudioSource = new AudioSource[2];
     AudioSource seAudioSource;
 
@@ -28,72 +39,78 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private bool _logarithmicFade = true;    // dBでフェード（推奨）
     [SerializeField] private bool _stopPrevWhenSilent = true; // フェード完了で完全停止
     private Coroutine _currentFade;
+    private Coroutine _ingameRoutine;
+    public bool _isPaused;
+    [SerializeField] private BGMType[] _sequence = { BGMType.Ingame1, BGMType.Ingame2, BGMType.Boss };
+    private int _seqIndex = 0;
+    private Coroutine _seqRoutine;
 
-    public  bool _isPaused;
     void Start()
     {
         bgmAudioSource[0] = gameObject.AddComponent<AudioSource>();
         bgmAudioSource[1] = gameObject.AddComponent<AudioSource>();
         seAudioSource = gameObject.AddComponent<AudioSource>();
-        // 推奨設定
         foreach (var s in bgmAudioSource)
         {
             s.playOnAwake = false;
-            s.loop = true;   // ここはBGM側のデフォ。個別に上書き可
-            s.spatialBlend = 0f;     // 2D
-            s.volume = 1f;     // 実フェードは後述で制御
+            s.loop = true;
+            s.spatialBlend = 0f;
+            s.volume = 1f;
         }
         seAudioSource.playOnAwake = false;
         seAudioSource.spatialBlend = 0f;
 
         if (SceneManager.GetActiveScene().name == SceneType.IngameScene.ToString())
         {
-            StartCoroutine(InGameBGMPlay());
+            // ★ 巡回ハンドルを保持するように変更
+            _ingameRoutine = StartCoroutine(InGameBGMPlay());
         }
-
     }
     public void BGMPlay(BGMType bgmtype, bool loop = true, float fadeSeconds = -1f, bool restartIfSame = false)
     {
+        Debug.Log("bgmtype" + bgmtype.ToString());
+        BGMPlayAt(bgmtype, startTimeSamples: 0, loop: loop, fadeSeconds: fadeSeconds, restartIfSame: restartIfSame);
+    }
+
+    public void BGMPlayAt(BGMType bgmtype, int startTimeSamples, bool loop = true, float fadeSeconds = -1f, bool restartIfSame = false)
+    {
         var entry = bgmclip.Find(b => b.type == bgmtype && b.clip != null);
-        if (entry == null)
-        {
-            Debug.LogWarning($"[BGM] {bgmtype} が未設定/未割当");
-            return;
-        }
+        if (entry == null) { Debug.LogWarning($"[BGM] {bgmtype} が未設定/未割当"); return; }
+        if (fadeSeconds < 0f) fadeSeconds = 0; //_defaultFadeSeconds;
 
-        if (fadeSeconds < 0f) fadeSeconds = _defaultFadeSeconds;
-
-        // 今鳴ってる/次に鳴らすソースを決める（A/Bスワップ）
         var a = bgmAudioSource[0];
         var b = bgmAudioSource[1];
         var next = a.isPlaying ? b : a;
         var prev = a.isPlaying ? a : (b.isPlaying ? b : null);
 
-        // 同一Clipの最適化：同じ曲で鳴ってるなら何もしない（明示的にリスタートしたい時は restartIfSame=true）
+        // 同一曲最適化
         if (!restartIfSame && prev != null && prev.clip == entry.clip && prev.isPlaying) return;
 
-        // 進行中フェードがあれば止める
         if (_currentFade != null) StopCoroutine(_currentFade);
 
-        // 次曲の準備
         next.clip = entry.clip;
         next.loop = loop;
-        next.pitch = 1f;        // 必要なら引数化
-        next.volume = 0f;       // フェードで上げる
-        next.time = 0f;
+        next.pitch = 1f;
+        next.volume = 0f;
+        // ★ここが追加：再生開始位置（サンプル）
+        next.timeSamples = Mathf.Clamp(startTimeSamples, 0, entry.clip.samples - 1);
         next.Play();
 
-        // 前曲→次曲をクロスフェード
         _currentFade = StartCoroutine(CrossFadeRoutine(prev, next, fadeSeconds));
     }
-
     public void SEPlay(SEType seType, float vloume = 1f)
     {
         var entry = seclip.Find(e => e.type == seType && e.clip != null);
         if (entry == null) { Debug.LogWarning($"[SE] {seType} が未設定/未割当"); return; }
         seAudioSource.PlayOneShot(entry.clip, Mathf.Clamp01(vloume));
     }
-
+    public void ResumeAutoSequenceInIngame()
+    {
+        if (_ingameRoutine == null)
+        {
+            _ingameRoutine = StartCoroutine(InGameBGMPlay());
+        }
+    }
     public void BGMStop()
     {
         if (bgmAudioSource[0].isPlaying) bgmAudioSource[0].Stop();
@@ -292,13 +309,12 @@ public class SoundManager : MonoBehaviour
 
         while (src != null && clip != null)
         {
-             while (_isPaused) yield return null;   // ★追加（timeSamples も止まるが明示で安全）
+            while (_isPaused) yield return null;   // ★追加（timeSamples も止まるが明示で安全）
             // 再生位置（サンプル）と残り秒
             int timeSamples = src.timeSamples;                   // Pause中は進まない
             int total = clip.samples;
             int remainSmp = Mathf.Max(0, total - timeSamples);
             float remainSec = (float)remainSmp / clip.frequency;
-
             // 残りがフェード時間以内に入ったらフェード開始（1回だけ）
             if (!fadeStarted && remainSec <= fadeOutSeconds)
             {
@@ -317,25 +333,73 @@ public class SoundManager : MonoBehaviour
             // 「ポーズ中もカウントダウンしたい」ならDSP時計版を別途用意（下にサンプルあり）
             yield return null;
         }
-        
     }
-    
-// BGMだけを一括 Pause/UnPause するAPI
-public void SetPaused(bool paused)
-{
-    _isPaused = paused;
-    foreach (var s in bgmAudioSource)
+
+    // BGMだけを一括 Pause/UnPause するAPI
+    public void SetPaused(bool paused)
     {
-        if (s == null) continue;
-        if (paused)
+        _isPaused = paused;
+        foreach (var s in bgmAudioSource)
         {
-            if (s.isPlaying) s.Pause();   // 位置保持で停止
+            if (s == null) continue;
+            if (paused)
+            {
+                if (s.isPlaying) s.Pause();   // 位置保持で停止
+            }
+            else
+            {
+                if (s.clip != null) s.UnPause(); // 続きから再生
+            }
+        }
+        // ※SEを止めたいなら seAudioSource も同様に処理
+    }
+    // ★ 追加：外部から 1/2 どちらからでも開始可能（最終的に Boss へ）
+    public void StartSequenceFrom(BGMType startType, float fadeSeconds = 1.0f)
+    {
+        // 既存巡回が生きていたら止める
+        StopIngameSequenceIfAny();
+
+        if (startType == BGMType.Ingame1)
+        {
+            // 既存の 1→2→Boss 巡回をそのまま使う
+            _ingameRoutine = StartCoroutine(InGameBGMPlay());
+        }
+        else if (startType == BGMType.Ingame2)
+        {
+            // 2 から始めて、自然に Boss へ繋ぐ
+            _ingameRoutine = StartCoroutine(InGameBGMPlayFrom2());
+        }
+        else if (startType == BGMType.Boss)
+        {
+            // いきなり Boss 常駐（必要なら）
+            BGMPlay(BGMType.Boss, loop: true, fadeSeconds: fadeSeconds, restartIfSame: true);
+            _ingameRoutine = null; // ループ常駐なので巡回は無し
         }
         else
         {
-            if (s.clip != null) s.UnPause(); // 続きから再生
+            // デフォルトは 1 から
+            _ingameRoutine = StartCoroutine(InGameBGMPlay());
         }
     }
-    // ※SEを止めたいなら seAudioSource も同様に処理
-}
+    // ★ 追加：Ingame2 の末尾まで再生 → Boss へ切替（Boss はループ）
+    private IEnumerator InGameBGMPlayFrom2()
+    {
+        // 2曲目：曲末で自然フェード→停止まで待ってから次へ
+        yield return PlayAndWaitForEnd(BGMType.Ingame2, fadeOutSeconds: 1.2f);
+
+        // 3曲目（= Boss）はループで常駐
+        BGMPlay(BGMType.Boss, loop: true, fadeSeconds: 1.0f, restartIfSame: true);
+
+        // Boss で居座るのでループ巡回不要
+        _ingameRoutine = null;
+    }
+    // ★ 追加：巡回中なら止める
+    private void StopIngameSequenceIfAny()
+    {
+        if (_ingameRoutine != null)
+        {
+            StopCoroutine(_ingameRoutine);
+            _ingameRoutine = null;
+        }
+    }
 }

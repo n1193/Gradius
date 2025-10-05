@@ -4,10 +4,10 @@ using Zenject;
 
 public class SpawnPoint : MonoBehaviour
 {
-    [SerializeField] EnemyType enemyType;
-    [SerializeField] int spawnCount = 1;
-    [SerializeField] float spawnInterval = 0.5f;
-    [SerializeField] bool drop = false;
+    [SerializeField] public EnemyType enemyType;
+    [SerializeField] public int spawnCount = 1;
+    [SerializeField] public float spawnInterval = 0.5f;
+    [SerializeField] public bool drop = false;
 
     [SerializeField] EnemyManager enemyManager;
 

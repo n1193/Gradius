@@ -5,6 +5,7 @@ using UnityEditorInternal;
 using System.Collections;
 using System;
 using Zenject;
+using Unity.VisualScripting;
 
 
 public enum SpawnPosition
@@ -22,11 +23,17 @@ public class EnemySpawner : MonoBehaviour
 
     private List<SpawnPointData> spawnPoints = new();
     private int currentIndex = 0;
+    private DropGroupManager dropGroupManager;
+    private List<Coroutine> activeRoutines = new();
+    private bool isSpawning = true;
+
     [Inject]
-    public void Construct(EnemyManager enemyManager, ScrollDirector scrollDirector)
+    public void Construct(EnemyManager enemyManager, ScrollDirector scrollDirector, DropGroupManager dropGroupManager)
     {
         this.enemyManager = enemyManager;
         scroll = scrollDirector;
+        this.dropGroupManager = dropGroupManager;
+
     }
     void Start()
     {
@@ -43,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         if (scroll.X >= d.x)
         //if (true) // ← scroll.CurrentX 条件を外して常に発火
         {
-            StartCoroutine(SpawnRoutine(d));
+            StartSpawnRoutine(d);
             currentIndex++;
         }
     }
@@ -65,7 +72,7 @@ public class EnemySpawner : MonoBehaviour
         {
             line++;
             // 必須: enemyType / x / y
-            var enemy = r.GetEnum("enemyType", EnemyType.Fan);   // ← 既定を Fan に
+            var enemy = r.GetEnum("enemyType", EnemyType.Fan);
             float x = r.GetFloat("x", float.NaN);
             float y = r.GetFloat("y", float.NaN);
 
@@ -98,27 +105,67 @@ public class EnemySpawner : MonoBehaviour
 
         Debug.Log($"[EnemySpawner] {spawnPoints.Count}行ロード完了");
     }
+    
+    public void StartSpawnRoutine(SpawnPointData data)
+    {
+        if (!isSpawning) return;
+        Coroutine co = StartCoroutine(SpawnRoutine(data));
+        activeRoutines.Add(co);
+    }
     private IEnumerator SpawnRoutine(SpawnPointData d)
     {
         if (d.delay > 0f) yield return new WaitForSeconds(d.delay);
+        DropGroup dropGroup = null;
+        if (d.drop)
+        {
+            dropGroup = dropGroupManager.CreateGroup(d.count);
+        }
+        var cam = Camera.main;
+        float spawnX = 0f;
+        if (d.spawnPos == "Right")
+        {
+            spawnX = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, cam.nearClipPlane)).x;
+        }
+        else if (d.spawnPos == "Left")
+        {
+            spawnX = cam.ViewportToWorldPoint(new Vector3(0, 0.5f, cam.nearClipPlane)).x;
+        }
+
 
         for (int i = 0; i < d.count; i++)
         {
-            var cam = Camera.main;
-            float camRight = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, cam.nearClipPlane)).x;
-            float spawnX = camRight + 0.5f + d.x;
-            var pos = new Vector3(camRight, d.y, 0f);
-            Debug.Log($"Spawn test: scrollX={scroll.transform.position.x}, TSVx={d.x}, spawnX={pos.x}");
-
-            enemyManager.SpawnEnemy(d.enemyType, pos, parentTransform);
+            var pos = new Vector3(spawnX, d.y, 0f);
+            enemyManager.SpawnEnemy(d.enemyType, pos, dropGroup, parentTransform);
 
             if (i < d.count - 1 && d.interval > 0f)
                 yield return new WaitForSeconds(d.interval);
+        }
+        // ここで生成完了フラグを立てる
+        if (dropGroup != null)
+        {
+            dropGroup.MarkSpawnComplete();
         }
     }
     private IEnumerator DelayedLoad()
     {
         yield return null; // 1フレーム待つ
         LoadSpawnPoints();
+    }
+    public void ResetSpawner(float X)
+    {
+        foreach (var co in activeRoutines)
+        {
+            if (co != null)
+                StopCoroutine(co);
+        }
+        currentIndex = 0;
+        foreach (SpawnPointData point in spawnPoints)
+        {
+            if (point.x >= X)
+            {
+                return;
+            }
+            currentIndex++;
+        }   
     }
 }

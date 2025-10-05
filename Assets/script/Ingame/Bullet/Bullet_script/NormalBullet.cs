@@ -7,6 +7,6 @@ public class NormalBullet : Bullet
     {
         dir = Vector2.right;
         base.Awake();
-        speed = 20f;
+        speed = 35f;
     }
 }

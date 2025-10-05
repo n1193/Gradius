@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 指定タイプの敵を生成して登録
     /// </summary>
-    public Enemy SpawnEnemy(EnemyType type, Vector3 position, Transform parent = null)
+    public Enemy SpawnEnemy(EnemyType type, Vector3 position, DropGroup dropGroup=null,Transform parent = null)
     {
         Enemy prefab = database.GetPrefab(type);
         if (prefab == null)
@@ -20,9 +20,23 @@ public class EnemyManager : MonoBehaviour
         }
 
         Enemy instance = _container.InstantiatePrefabForComponent<Enemy>(prefab, position, Quaternion.identity, parent);
+        if (dropGroup != null)
+        {
+            instance.AssignDropGroup(dropGroup);
+            dropGroup.AddEnemy(instance);
+        }
         RegisterEnemy(instance.gameObject);
-        Debug.Log($"EnemyManager.Spawn: type={type}, position={instance.transform.position}");
+        //Debug.Log($"EnemyManager.Spawn: type={type}, position={instance.transform.position}");
         return instance;
+    }
+    public void ClearAll()
+    {
+        foreach (var e in enemies)
+        {
+            if (e != null) Destroy(e.gameObject);
+        }
+        enemies.Clear();
+        Debug.Log("[EnemyManager] 全敵削除");
     }
     [Inject]
     public void Construct(DiContainer container)

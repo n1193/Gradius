@@ -17,7 +17,7 @@ public class InGameInstaller : MonoInstaller
     [SerializeField] private RespawnManager respawnManager;
     [SerializeField] private PlayerLife playerLife;
     [SerializeField] private GameManager gameManager;
-    
+    [SerializeField] private DropGroupManager dropGroupManager;
 
     public override void InstallBindings()
     {
@@ -36,5 +36,6 @@ public class InGameInstaller : MonoInstaller
         Container.Bind<RespawnManager>().FromInstance(respawnManager).AsSingle();
         Container.Bind<PlayerLife>().FromInstance(playerLife).AsSingle();
         Container.Bind<GameManager>().FromInstance(gameManager).AsSingle();
+        Container.Bind<DropGroupManager>().FromInstance(dropGroupManager).AsSingle();
     }
 }

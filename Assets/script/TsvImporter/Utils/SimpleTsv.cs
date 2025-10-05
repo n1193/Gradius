@@ -49,7 +49,7 @@ public static class SimpleTsv
                 {
                     headers = Sub(cells, startCol);
                     for (int i = 0; i < headers.Length; i++) headers[i] = headers[i].Trim();
-                    Debug.Log($"[TSV] headers: " + string.Join(" | ", System.Array.ConvertAll(headers, h => $"[{h}]")));
+                    //Debug.Log($"[TSV] headers: " + string.Join(" | ", System.Array.ConvertAll(headers, h => $"[{h}]")));
                 }
                 continue;
             }

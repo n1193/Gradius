@@ -4,5 +4,6 @@ public static class Tags
     public const string Enemy        = "Enemy";
     public const string PlayerBullet = "PlayerBullet";
     public const string EnemyBullet  = "EnemyBullet";
-    public const string Ground       = "Ground";
+    public const string VolcanoBullet = "VolcanoBullet";
+    public const string Ground = "Ground";
 }

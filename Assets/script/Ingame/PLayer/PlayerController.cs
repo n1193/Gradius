@@ -61,8 +61,9 @@ public class PlayerController : MonoBehaviour
         Initialize();
     }
     public void Initialize()
-    { 
-                mainShotBulletPool = new List<BulletPool>();
+    {
+        transform.position = new Vector3(-6.47f, 0f, 0f);
+        mainShotBulletPool = new List<BulletPool>();
         mainShotBulletPool.Clear();
         if (!rb2D) rb2D = GetComponent<Rigidbody2D>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
@@ -72,9 +73,11 @@ public class PlayerController : MonoBehaviour
                                 Camera.main.ViewportToWorldPoint(new Vector3(0.9f, 0.9f, 0f)) };
         playerTrail.initialize(transform.position);
         BulletPool mainbulletPool = weaponManager.CreateBulletPool(transform);  // ←ここで new しない、上書きしない！
-        mainbulletPool.Initialize(BulletOwner.Player, WeaponType.Normal, 2, 0.2f, SEType.PlayerShot, Tags.PlayerBullet.ToString());
+        mainbulletPool.Initialize(BulletOwner.Player, WeaponType.Normal, 2, 0.15f, SEType.PlayerShot, Tags.PlayerBullet.ToString());
         mainShotBulletPool.Add(mainbulletPool);
-
+        spriteRenderer.enabled = true;
+        ClearOptions();
+        shield?.DeleteShield();
     }
 
 
@@ -263,12 +266,13 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 pos = transform.position;
         soundManager.SEPlay(SEType.PlayerDead);
+        soundManager.BGMStop();
         spriteRenderer.enabled = false;
 
         Instantiate(explosionPrefab, transform.position, transform.rotation, transform.parent);
 
         playerLife.TakeDamage();
-       
+
         gameObject.SetActive(false);
     }
     public void ResetAt(Vector3 pos)
@@ -276,4 +280,13 @@ public class PlayerController : MonoBehaviour
         transform.position = pos;
         rb2D.linearVelocity = Vector2.zero;// HPや移動状態の初期化など最小限
     }
+    public void ClearOptions()
+{
+    foreach (var opt in _options)
+    {
+        if (opt != null)
+            Destroy(opt.gameObject);
+    }
+    _options.Clear();
+}
 }

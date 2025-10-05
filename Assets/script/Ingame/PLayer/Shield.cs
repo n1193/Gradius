@@ -31,7 +31,6 @@ public class Shield : MonoBehaviour
         currentHits = maxShieldHits;
         boxCollider.enabled = false;
         spriteRenderer.enabled=false;
-        
     }
     void Update()
     {
@@ -39,10 +38,16 @@ public class Shield : MonoBehaviour
     }
     public void ActivateShield()
     {
-        currentHits = maxShieldHits;
         shieldImage.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+        currentHits = maxShieldHits;
         spriteRenderer.enabled=true;
         boxCollider.enabled = true;
+    }
+    public void DeleteShield()
+    {
+        currentHits = 0;
+        spriteRenderer.enabled = false;
+        boxCollider.enabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D collision)

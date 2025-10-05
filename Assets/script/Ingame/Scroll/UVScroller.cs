@@ -28,6 +28,7 @@ public class UVScroller : MonoBehaviour
     int _stMain = Shader.PropertyToID("_MainTex_ST");
     int _stBase = Shader.PropertyToID("_BaseMap_ST");
     Vector2 _ofs;
+    bool isstop;
 
     void Awake()
     {
@@ -35,7 +36,6 @@ public class UVScroller : MonoBehaviour
         _mpb  = new MaterialPropertyBlock();
         if (targetCamera == null) targetCamera = Camera.main;
     }
-
     void Start()
     {
         if (fitToCameraHeight && targetCamera != null)
@@ -48,18 +48,25 @@ public class UVScroller : MonoBehaviour
 
         // 初期の ST（Tiling/Offset）を書き込む
         ApplyST();
+        SetStop(false);
     }
-
+    public void SetStop(bool isstop)
+    {
+        this.isstop = isstop;
+    }
     void LateUpdate()
     {
-        float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
-        _ofs += speed * dt;
+        if (!isstop)
+        {
+            float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            _ofs += speed * dt;
 
-        // 0..1 に丸めて無限に回す
-        _ofs.x = Mathf.Repeat(_ofs.x, 1f);
-        _ofs.y = Mathf.Repeat(_ofs.y, 1f);
+            // 0..1 に丸めて無限に回す
+            _ofs.x = Mathf.Repeat(_ofs.x, 1f);
+            _ofs.y = Mathf.Repeat(_ofs.y, 1f);
 
-        ApplyST();
+            ApplyST();
+        }
     }
 
     void ApplyST()

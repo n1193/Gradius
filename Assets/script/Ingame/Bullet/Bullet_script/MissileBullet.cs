@@ -14,7 +14,7 @@ public class MissileBullet : Bullet
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(Tags.Ground) || collision.CompareTag(Tags.Enemy))
+        if (collision.CompareTag(Tags.Ground) || collision.CompareTag(Tags.Enemy)|| collision.CompareTag(Tags.VolcanoBullet))
         {
             if (bulletPool != null & !isDead)
                 gameObject.SetActive(false);
@@ -27,8 +27,8 @@ public class MissileBullet : Bullet
     {
         UpdateSprite();
         Vector2 checkDirection = Vector2.down * 2f;
-        hit = Physics2D.Raycast(transform.position, checkDirection, 0.4f, groundLayer);
-        if (hit.collider != null)
+        hit = Physics2D.Raycast(transform.position, checkDirection, 1f, groundLayer);
+        if (hit.collider !=null && transform.position.y <= -4.3f)
         {
             dir = Vector2.right; // 右方向に変更
         }

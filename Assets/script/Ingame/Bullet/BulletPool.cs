@@ -80,7 +80,6 @@ public class BulletPool : MonoBehaviour
     {
         bullet.gameObject.SetActive(false);
         pool.Enqueue(bullet);
-        Debug.Log("弾がなくなった");
     }
     public void Dead()
     {

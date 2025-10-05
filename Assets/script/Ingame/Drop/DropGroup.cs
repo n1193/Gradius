@@ -1,35 +1,37 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DropGroup
 {
-    readonly DropManager _mgr;
-    readonly Transform _anchor;
-    readonly int _total; // 同時スポーン総数
-    int _kills;          // 撃破数
-    bool _done;
+    private List<Enemy> members = new();
+    private int expectedCount;
+    private bool isSpawnComplete = false;
 
-    public DropGroup(DropManager mgr, Transform anchor, int totalCount)
+    public void AddEnemy(Enemy e)
     {
-        _mgr = mgr;
-        _anchor = anchor;
-        _total = Mathf.Max(0, totalCount);
-        _done = false;
-        _kills = 0;
+        members.Add(e);
+        e.AssignDropGroup(this);
+        expectedCount = members.Count; // ←追加時に更新
+        Debug.Log($"[DropGroup] 追加: {e.name}, 現在{expectedCount}体");
+    }
+    public void MarkSpawnComplete()
+    {
+        isSpawnComplete = true;
+        Debug.Log("[DropGroup] 生成完了フラグを立てた");
     }
 
-    // byPlayer: 撃破true / 逃亡false
-    public void NotifyMemberDead(bool byPlayer, Vector3 lastPos)
-    {
-        //if (_done || !byPlayer) return;   // AllKilled：逃亡はノーカン
+    public bool Contains(Enemy e) => members.Contains(e);
 
-        _kills++;
-        Debug.Log($"DropGroup: _total={_total}, _kills={_kills}");
-        if (_kills >= _total)
-        {
-            _done = true;
-            var pos = _anchor ? _anchor.position : lastPos;
-            _mgr.SpawnDrop(pos);
-            Debug.Log($"DropGroup: AllKilled at {pos}");
-        }
+    public void Remove(Enemy e)
+    {
+        members.Remove(e);
+        Debug.Log($"[DropGroup] {e.name}死亡 残り={members.Count}/{expectedCount}");
+    }
+
+    public bool IsAllDead()
+    {
+        if (!isSpawnComplete) return false;  // ← 生成が終わるまで判定しない
+        bool allDead = members.TrueForAll(m => m == null);
+        return allDead;
     }
 }

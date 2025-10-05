@@ -66,7 +66,7 @@ public abstract class Bullet : MonoBehaviour
         if (owner == BulletOwner.Player)
         {
             if (other.CompareTag(Tags.Player) || other.CompareTag(Tags.PlayerBullet)) return;
-            if (other.CompareTag(Tags.Enemy) || other.CompareTag(Tags.Ground))
+            if (other.CompareTag(Tags.Enemy) || other.CompareTag(Tags.Ground)|| other.CompareTag(Tags.VolcanoBullet))
             {
                 if (bulletPool != null&!isDead)
                     gameObject.SetActive(false);

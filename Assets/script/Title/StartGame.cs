@@ -22,7 +22,7 @@ public class StartGame : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            soundManager.BGMPlay(BGMType.Title, false);
+            soundManager.BGMPlay(BGMType.Title, loop:false, fadeSeconds:0f, restartIfSame:true);
             sceneRouter.Go(sceneName.ToString()); // フェード＆非同期は Router 側
             enabled = false;
         }

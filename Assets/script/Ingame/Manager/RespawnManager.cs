@@ -1,18 +1,25 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 
 public class RespawnManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController player;
-    [SerializeField] private ScrollDirector scroll;
-
+     private PlayerController player;
+     private ScrollDirector scroll;
+     private EnemyManager enemyManager;
+     private EnemySpawner enemySpawner;
+    private Upgrade upgrade;
 
     [Inject]
-    public void Construct(PlayerController player, ScrollDirector scroll)
+    public void Construct(PlayerController player, ScrollDirector scroll, EnemyManager enemyManager, EnemySpawner enemySpawner, Upgrade upgrade)
     {
         this.player = player;
         this.scroll = scroll;
+        this.enemyManager = enemyManager;
+        this.enemySpawner = enemySpawner;
+        this.upgrade = upgrade;
+ 
     }
     // GameManagerから呼ばれる
     public void OnPlayerDeath()
@@ -20,7 +27,10 @@ public class RespawnManager : MonoBehaviour
         //再表示
         player.gameObject.SetActive(true);
         player.Initialize();
-        scroll.SetScrollX();
+        float X = scroll.SetScrollX();
+        enemyManager.ClearAll();
+        enemySpawner.ResetSpawner(X);
+        upgrade.Reset();
         //player.ResetAfterRespawn();
     }
 }

@@ -29,15 +29,15 @@ public class Upgrade : MonoBehaviour
         this.playerController = playerController;
         this.SoundManager = soundManager;
     }
-   
+
     void Update()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.U))
         {
             ChangeSelect();
         }
-        #endif
+#endif
         if (Input.GetKeyDown(KeyCode.Z))
         {
             ApplyUpgrade();
@@ -60,7 +60,7 @@ public class Upgrade : MonoBehaviour
             selectedUpgradeIndex %= UpgradeData.MaxUpgradeLevels.Length;
             upgradeCells[selectedUpgradeIndex].SetSelect(true);
         }
-    
+
     }
     public void ApplyUpgrade()
     {
@@ -79,10 +79,18 @@ public class Upgrade : MonoBehaviour
         ChangeSelect(true);
         selectedUpgradeIndex = -1;
         SoundManager.SEPlay(SEType.Upgrade, 0.5f);
-   }
+    }
     public void SetLevel(UpgradeData.UpgradeType upgradeType, int level)
     {
         _upgradeLevels[(int)upgradeType] = level;
         upgradeCells[(int)upgradeType].SetMax(level >= UpgradeData.MaxUpgradeLevels[(int)upgradeType]);
+    }
+    public void Reset()
+    {
+        for (int i = 0; i < _upgradeLevels.Length; i++)
+        {
+            _upgradeLevels[i] = 0;
+            upgradeCells[i].SetMax(false);
+        }
     }
 }

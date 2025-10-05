@@ -1,42 +1,62 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
-using System;
-
-public enum EnemyType { Fan, Rugal, Garun, Jumper, Dee_01, Ducker, Hatches, Rush, BigCore }
-
-[Serializable]
-public class EnemyEntry
-{
-    public EnemyType enemyType;
-    public Enemy enemyPrefab;   // ルートに Enemy を1個
-}
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] List<EnemyEntry> enemyEntry;
-    [SerializeField] SpawnManager spawnManager;
-
-    [Inject]
-    public void Construct(SpawnManager spawnManager)
+    [SerializeField] private EnemyDatabase database;  // ScriptableObject参照
+    private readonly List<GameObject> enemies = new();
+    DiContainer _container;
+    /// <summary>
+    /// 指定タイプの敵を生成して登録
+    /// </summary>
+    public Enemy SpawnEnemy(EnemyType type, Vector3 position, Transform parent = null)
     {
-        this.spawnManager = spawnManager;
+        Enemy prefab = database.GetPrefab(type);
+        if (prefab == null)
+        {
+            Debug.LogWarning($"[EnemyManager] Prefab not found for type: {type}");
+            return null;
+        }
+
+        Enemy instance = _container.InstantiatePrefabForComponent<Enemy>(prefab, position, Quaternion.identity, parent);
+        RegisterEnemy(instance.gameObject);
+        Debug.Log($"EnemyManager.Spawn: type={type}, position={instance.transform.position}");
+        return instance;
+    }
+    [Inject]
+    public void Construct(DiContainer container)
+    {
+        _container = container;
+    }
+    /// <summary>
+    /// 生成された敵を登録
+    /// </summary>
+    public void RegisterEnemy(GameObject enemy)
+    {
+        if (!enemies.Contains(enemy))
+            enemies.Add(enemy);
     }
 
-    // Wave生成（Spawnerから呼ばれる）
-    public void Instance(
-        EnemyType enemyType,
-        Vector3 spawnPoint,
-        bool drop = false,
-        int count = 1,
-        float spawnInterval = 0.25f,
-        SpawnPosition spawenPosition = SpawnPosition.CustomPoint)
+    /// <summary>
+    /// 個別削除時などに呼ぶ
+    /// </summary>
+    public void UnregisterEnemy(GameObject enemy)
     {
-        var entry = enemyEntry.Find(e => e.enemyType == enemyType);
-        if (entry == null || entry.enemyPrefab == null)
-            return; // spawnPoint(Vector3) の null チェックは不要
+        enemies.Remove(enemy);
+    }
 
-        // ★ 変更点：最後の引数に drop を渡す
-        spawnManager.Spawn(entry.enemyPrefab, spawnPoint, count, spawnInterval, spawenPosition, drop);
+    /// <summary>
+    /// 全削除（リスポーン前など）
+    /// </summary>
+    public void ClearAllEnemies()
+    {
+        Debug.Log($"[EnemyManager] Clearing {enemies.Count} enemies.");
+        foreach (var e in enemies)
+        {
+            if (e != null)
+                Destroy(e);
+        }
+        enemies.Clear();
     }
 }

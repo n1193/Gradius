@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -10,6 +9,9 @@ public class PlayerExplotion : MonoBehaviour
     private float changeInterval = 0.1f;
     private float time = 0f;
     private bool running;
+    private PlayerLife playerLife;
+
+
 
     void Start()
     {
@@ -23,16 +25,9 @@ public class PlayerExplotion : MonoBehaviour
         int frame = Mathf.FloorToInt(time / changeInterval);
         if (frame > sprites.Length)
         {
-            StartCoroutine(scenechange());
+            running = true;
+            spriteRenderer.enabled = false;
         }
         spriteRenderer.sprite = sprites[frame];
     }
-
-    IEnumerator scenechange()
-    {
-        running = true;
-        spriteRenderer.enabled = false;
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(SceneType.TitleScene.ToString());
-    }    
 }

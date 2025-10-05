@@ -3,12 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Zenject;
 
-/// <summary>
-/// スクロール進行を管理するディレクター。
-/// ・X が進む（右方向に増加）
-/// ・Stop 到達で一時停止（時間 or シグナル）
-/// ・外部のポーズとも両立（カウンター方式）
-/// </summary>
 public class ScrollDirector : MonoBehaviour
 {
     // 停止の種類
@@ -17,7 +11,9 @@ public class ScrollDirector : MonoBehaviour
     [SerializeField]public GameObject volcanoInstancePoint;
     public DiContainer _container;
 
-
+    private float[] checkpointXs = { 130f, 200f, 250f };
+    private int currentCheckpointIndex = -1;
+    public float CurrentCheckpointX { get; private set; } = 0f;
 
     // 停止ポイントの定義
     [System.Serializable]
@@ -27,6 +23,28 @@ public class ScrollDirector : MonoBehaviour
         public StopKind kind;      // 停止の種類
         public float duration;     // Timed のとき使用（秒）
         public string signalId;    // WaitSignal のとき使用（"Boss1" 等）
+    }
+    // SpawnEvent: x座標到達で生成する決定論的イベント
+    [System.Serializable]
+    public struct SpawnEvent
+    {
+        public float xPos;           // ステージの絶対x（スクロール距離）
+        public string prefabId;      // 登録済み辞書キー
+        public float y;
+        public int count;
+        public float interval;
+        public bool drop;
+    }
+
+    // Checkpoint: 復帰地点
+    [System.Serializable]
+    public struct Checkpoint
+    {
+        public float x;              // 復帰先のscrollX
+        public int spawnIndex;       // タイムラインの再開インデックス
+        public int weaponKind;       // 必要なら
+        public int powerLevels;      // 例：ビットマスク/配列等
+        public int optionCount;
     }
 
     [Header("Scroll Settings")]
@@ -98,7 +116,21 @@ public class ScrollDirector : MonoBehaviour
                     _waitingSignal = s.signalId;
                     break;
             }
+        } // プレイヤーが次のチェックポイントを超えたら更新
+        for (int i = 0; i < checkpointXs.Length; i++)
+        {
+            if (X >= checkpointXs[i] && i > currentCheckpointIndex)
+            {
+                currentCheckpointIndex = i;
+                CurrentCheckpointX = checkpointXs[i];
+                Debug.Log($"Checkpoint {i + 1} reached! X={CurrentCheckpointX}");
+            }
         }
+    }
+    
+    public float GetRespawnX()
+    {
+        return CurrentCheckpointX;
     }
 
     public void SetSpeed(float s) => baseSpeed = s;
@@ -189,6 +221,19 @@ public class ScrollDirector : MonoBehaviour
         if (logPause) Debug.Log($"[ScrollDirector] Timed pause end (PauseCount={_pauseCounter - 1})");
         RemovePause();
         _timedPauseCo = null;
+    }
+    // ScrollDirector.cs に追記
+    public void SetScrollX()
+    {
+        
+        X = checkpointXs[currentCheckpointIndex];
+        // 取りこぼし防止：すでに通過済みのStopをスキップ
+        while (_nextStopIndex < stops.Count && X + Eps >= stops[_nextStopIndex].x)
+            _nextStopIndex++;
+        _waitingSignal = null;
+        if (_timedPauseCo != null) { StopCoroutine(_timedPauseCo); _timedPauseCo = null; }
+        _pauseCounter = 0;
+        if (logPause) Debug.Log($"[ScrollDirector] SetScrollX: X={X}, nextStop={_nextStopIndex}");
     }
 
 #if UNITY_EDITOR

@@ -10,10 +10,15 @@ public class InGameInstaller : MonoInstaller
     [SerializeField] public ItemFactory itemFactory;
     [SerializeField] private DropManager dropManager;
     [SerializeField] private EnemyManager enemyManager;
-    [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private EnemySpawner spawnManager;
     [SerializeField] private ScrollDirector scrollDirector;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private SoundManager soundManager;
+    [SerializeField] private RespawnManager respawnManager;
+    [SerializeField] private PlayerLife playerLife;
+    [SerializeField] private GameManager gameManager;
+    
+
     public override void InstallBindings()
     {
         //Container.Bind<TimeManager>().FromInstance(timeManager).AsSingle();
@@ -24,9 +29,12 @@ public class InGameInstaller : MonoInstaller
         Container.Bind<ItemFactory>().FromInstance(itemFactory).AsSingle();
         Container.Bind<DropManager>().FromInstance(dropManager).AsSingle();
         Container.Bind<EnemyManager>().FromInstance(enemyManager).AsSingle();
-        Container.Bind<SpawnManager>().FromInstance(spawnManager).AsSingle();
+        Container.Bind<EnemySpawner>().FromInstance(spawnManager).AsSingle();
         Container.Bind<ScrollDirector>().FromInstance(scrollDirector).AsSingle();
         Container.Bind<ScoreManager>().FromInstance(scoreManager).AsSingle();
         Container.Bind<SoundManager>().FromInstance(soundManager).AsSingle();
+        Container.Bind<RespawnManager>().FromInstance(respawnManager).AsSingle();
+        Container.Bind<PlayerLife>().FromInstance(playerLife).AsSingle();
+        Container.Bind<GameManager>().FromInstance(gameManager).AsSingle();
     }
 }

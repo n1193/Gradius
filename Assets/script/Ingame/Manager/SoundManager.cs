@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 
 public enum BGMType { None = -1, Title, Ingame1, Ingame2, Boss }
-public enum SEType { None = -1,Title,PlayerShot, Damage, EnemyDamage, Upgrade, BossDmage, EnemyDestroy, BossDestroy, GetUpgradeItem, PlayerDead,Laser }
+public enum SEType { None = -1,Title,PlayerShot, Damage, EnemyDamage, Upgrade, BossDmage, EnemyDestroy, BossDestroy, GetUpgradeItem, PlayerDead,Laser,GameOver,Pause}
 [Serializable] public class BGMEntry { public BGMType type; public AudioClip clip; }
 [Serializable] public class SEEntry  { public SEType  type; public AudioClip clip; }
 
@@ -59,7 +59,7 @@ public class SoundManager : MonoBehaviour
         }
         seAudioSource.playOnAwake = false;
         seAudioSource.spatialBlend = 0f;
-
+seAudioSource.ignoreListenerPause = true; 
         if (SceneManager.GetActiveScene().name == SceneType.IngameScene.ToString())
         {
             // ★ 巡回ハンドルを保持するように変更
@@ -71,7 +71,6 @@ public class SoundManager : MonoBehaviour
         Debug.Log("bgmtype" + bgmtype.ToString());
         BGMPlayAt(bgmtype, startTimeSamples: 0, loop: loop, fadeSeconds: fadeSeconds, restartIfSame: restartIfSame);
     }
-
     public void BGMPlayAt(BGMType bgmtype, int startTimeSamples, bool loop = true, float fadeSeconds = -1f, bool restartIfSame = false)
     {
         var entry = bgmclip.Find(b => b.type == bgmtype && b.clip != null);
@@ -352,6 +351,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         // ※SEを止めたいなら seAudioSource も同様に処理
+    
     }
     // ★ 追加：外部から 1/2 どちらからでも開始可能（最終的に Boss へ）
     public void StartSequenceFrom(BGMType startType, float fadeSeconds = 1.0f)

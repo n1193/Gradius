@@ -29830,7 +29830,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.size
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[8].clip
@@ -29839,6 +29839,22 @@ PrefabInstance:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[8].type
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[9].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 76412e149c1ad6d48b468019d1bc5ff2, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[9].type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[10].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d85987051e6dc6d4e96ade7013ce46ea, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[10].type
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5404241664077866655, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: m_Name

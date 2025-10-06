@@ -205,12 +205,15 @@ public class ScrollDirector : MonoBehaviour
     void AddPause()
     {
         _pauseCounter++;
+        uVScroller.SetStop(true);
         if (logPause) Debug.Log($"[ScrollDirector] Pause++ ({_pauseCounter})");
     }
 
     void RemovePause()
     {
         _pauseCounter = Mathf.Max(0, _pauseCounter - 1);
+        if(_pauseCounter<=0)uVScroller.SetStop(false);
+
         if (logPause) Debug.Log($"[ScrollDirector] Pause-- ({_pauseCounter})");
     }
 

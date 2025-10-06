@@ -17,11 +17,15 @@ public class GameManager : MonoBehaviour
     }
 
     public GameState CurrentState { get; private set; } = GameState.Playing;
+    SoundManager soundManager;
+    ScrollDirector scrollDirector;
 
     [Inject]
-    public void Construct(RespawnManager respawnManager)
+    public void Construct(RespawnManager respawnManager, SoundManager soundManager, ScrollDirector scrollDirector)
     {
         this.respawnManager = respawnManager;
+        this.soundManager = soundManager;
+        this.scrollDirector = scrollDirector;
     }
 
     // 💀 プレイヤー死亡通知（PlayerController から呼ばれる）
@@ -63,10 +67,9 @@ public class GameManager : MonoBehaviour
     public void OnGameOver()
     {
         if (CurrentState == GameState.GameOver) return;
-
         Debug.Log("[GameManager] GameOver");
-        CurrentState = GameState.GameOver;
-        SceneManager.LoadScene(SceneType.TitleScene.ToString());
+        scrollDirector.SetPlayerPause(true);
+        StartCoroutine(GameOverAction());
     }
 
     // 🏁 ステージクリア
@@ -74,6 +77,14 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = GameState.StageClear;
         Debug.Log("[GameManager] Stage Clear!");
+        SceneManager.LoadScene(SceneType.TitleScene.ToString());
+    }
+    IEnumerator GameOverAction()
+    {
+        soundManager.SEPlay(SEType.GameOver);
+
+        yield return new WaitForSeconds(5f); // ウェーブ間の待機時間
+        CurrentState = GameState.GameOver;
         SceneManager.LoadScene(SceneType.TitleScene.ToString());
     }
 }

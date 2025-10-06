@@ -6,6 +6,7 @@ class Dee_01 : Enemy
 {
     SpriteRenderer spriteRenderer;
     public List<Sprite> sprites = new List<Sprite>();
+    public List<Sprite> item_Sprites = new List<Sprite>();
     int spriteIndex = 0; // スプライトのインデックス
     Action Shot; // 通常弾やレーザー弾の発射アクションのイベント
     const float shotIntervalTime = 2.5f; // 弾を発射する間隔
@@ -73,7 +74,13 @@ class Dee_01 : Enemy
                 spriteIndex = 2; // 下のスプライト          
             }
         }
-                  
-        spriteRenderer.sprite = sprites[spriteIndex]; // スプライトを更新
+        if (_dropGroup != null)
+        {
+            spriteRenderer.sprite = item_Sprites[spriteIndex]; // スプライトを更新
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[spriteIndex]; // スプライトを更新
+        }
     }
 }

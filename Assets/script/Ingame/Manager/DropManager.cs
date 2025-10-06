@@ -1,6 +1,8 @@
 using UnityEngine;
 using Zenject;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEditor.Search;
 
 public class DropManager : MonoBehaviour
 {
@@ -13,14 +15,24 @@ public class DropManager : MonoBehaviour
 
     [Inject] DiContainer _container;
 
-
-
-    /*public DropGroup CreateGroup(Transform anchor, int totalCount)
+    List<GameObject> Items = new();
+    /*
+    public DropGroup CreateGroup(Transform anchor, int totalCount)
         => new DropGroup(this, anchor, totalCount);
-*/
+    */
     public void SpawnDrop(Vector3 pos)
     {
         if (!itemDropPrefab) return;
-        _container.InstantiatePrefab(itemDropPrefab, pos, Quaternion.identity, parent);
+        GameObject item = _container.InstantiatePrefab(itemDropPrefab, pos, Quaternion.identity, parent);
+        Items.Add(item);
+    }
+    public void Reset()
+    {
+        foreach (var g in Items)
+        {
+            if (g != null)
+                Destroy(g);
+        }
+        Items.Clear();
     }
 }

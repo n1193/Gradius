@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
     private BulletPool subShotBulletPool; // トリガ（メイン＋各オプションが購読）
     DiContainer _container;
     PlayerLife playerLife;
-
-
     [Inject]
     public void Construct(WeaponManager weaponManager, Upgrade upgrade, SoundManager soundManager, DiContainer container, PlayerLife playerLife)
     {
@@ -78,6 +76,8 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.enabled = true;
         ClearOptions();
         shield?.DeleteShield();
+        Destroy(subShotBulletPool);
+        baseSpeed = 5f;
     }
 
 
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
             if (opt == null) continue;
             BulletPool bulletPool = weaponManager.CreateBulletPool(opt.transform);
             bulletPool.CopySettingsFrom(_bulletPool);
-            opt.AddMainShot(bulletPool);
+            opt.AddSubShot(bulletPool);
         }
     }
     void CleanMainShot()

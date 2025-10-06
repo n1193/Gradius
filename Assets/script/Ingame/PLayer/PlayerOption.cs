@@ -84,7 +84,7 @@ public class PlayerOption : MonoBehaviour
     {
         mainShotBulletPool.Add(bulletPool);
     }
-    public void AddSbuShot(BulletPool bulletPool)
+    public void AddSubShot(BulletPool bulletPool)
     {
         subShotBulletPool = bulletPool;
     }

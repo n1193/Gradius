@@ -7,6 +7,7 @@ class Garun : Enemy
     SpriteRenderer spriteRenderer;
     public List<Sprite> sprites = new List<Sprite>();
 
+    public List<Sprite> item_Sprites = new List<Sprite>();
     int spriteIndex = 0; // スプライトのインデックス
     int spriteChangeInterval = 30; // スプライトを変更する間隔
     int angleDeg = 0;
@@ -40,10 +41,7 @@ class Garun : Enemy
         float angleRad = angleDeg * Mathf.Deg2Rad;
         float positionX = transform.position.x + direction.x;
         transform.position += new Vector3(direction.x, Mathf.Sin(angleRad)/2) * speed * Time.deltaTime;
-
     }
-
-
     void UpdateSprite()
     {
         spriteIndex++;
@@ -51,7 +49,14 @@ class Garun : Enemy
         {
             spriteIndex = 0; // スプライトのインデックスをリセット
         }
-        spriteRenderer.sprite = sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
+        if (_dropGroup!= null)
+        {
+            spriteRenderer.sprite = item_Sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
+        }
     }
 
 }

@@ -5,7 +5,7 @@ public class DoubleBullet : Bullet
     protected override void Awake()
     {
         dir = new Vector2(1, 1);
-        speed = 20f; // ダブル弾の速度
+        speed = 25f; // ダブル弾の速度
         base.Awake();
     }
 }

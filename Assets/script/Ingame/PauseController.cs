@@ -23,6 +23,7 @@ public class PauseController : MonoBehaviour
 
     void Toggle()
     {
+        soundManager.SEPlay(SEType.Pause);
         _paused = !_paused;
 
         if (_paused)
@@ -32,6 +33,7 @@ public class PauseController : MonoBehaviour
             AudioListener.pause = true;     // （全部の音を止めたい場合はこのまま）
             soundManager?.SetPaused(true);  // ★追加：BGMフェード用コルーチンも止める
             overlay?.SetActive(true);
+
         }
         else
         {

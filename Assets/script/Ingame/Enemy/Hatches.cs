@@ -7,7 +7,6 @@ public enum WallAttachment
     Top,
     Bottom
 }
-
 class Hatches : Enemy
 {
     SpriteRenderer spriteRenderer;

@@ -11,6 +11,7 @@ class Jumper : Enemy
     }
     SpriteRenderer spriteRenderer;
     public List<Sprite> sprites = new List<Sprite>();
+    public List<Sprite> item_Sprites = new List<Sprite>();
     int spriteIndex = 0; // スプライトのインデックス
     int spriteChangeInterval = 30; // スプライトを変更する間隔
     float bottomY = 0f;
@@ -70,7 +71,13 @@ class Jumper : Enemy
         {
             spriteIndex = 0; // スプライトのインデックスをリセット
         }
-        spriteRenderer.sprite = sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
+        if (_dropGroup != null)
+        {
+            spriteRenderer.sprite = item_Sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[spriteIndex / spriteChangeInterval]; // スプライトを更新
+        }
     }
-
 }

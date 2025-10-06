@@ -129,6 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5bc888e7e760d64896661f93ce68b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropOnDeath: 1
+  groupID: -1
   playerController: {fileID: 0}
   weaponManager: {fileID: 0}
   scoreManager: {fileID: 0}
@@ -138,6 +140,10 @@ MonoBehaviour:
   - {fileID: -617174564, guid: d6580183429cf7b49870ec51cb164d31, type: 3}
   - {fileID: -989906835, guid: d6580183429cf7b49870ec51cb164d31, type: 3}
   - {fileID: 41543352, guid: d6580183429cf7b49870ec51cb164d31, type: 3}
+  item_Sprites:
+  - {fileID: 516483893, guid: d6580183429cf7b49870ec51cb164d31, type: 3}
+  - {fileID: -698145242, guid: d6580183429cf7b49870ec51cb164d31, type: 3}
+  - {fileID: 1963568283, guid: d6580183429cf7b49870ec51cb164d31, type: 3}
 --- !u!61 &4891727451382185892
 BoxCollider2D:
   m_ObjectHideFlags: 0

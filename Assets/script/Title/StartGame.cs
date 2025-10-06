@@ -27,7 +27,6 @@ public class StartGame : MonoBehaviour
             enabled = false;
         }
     }
-
 #if UNITY_EDITOR
     // Build Settings に入ってるか警告（編集時だけ）
     void OnValidate()

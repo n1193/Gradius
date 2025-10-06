@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     bool Active = false;
     public ScoreManager scoreManager;
     public int score = 100;
-    private DropGroup _dropGroup;
+    protected DropGroup _dropGroup;
     DropGroupManager dropGroupManager;
     public void SetDropGroup(DropGroup g) => _dropGroup = g;
     private bool isDead;

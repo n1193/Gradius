@@ -87,10 +87,12 @@ public class Upgrade : MonoBehaviour
     }
     public void Reset()
     {
+        selectedUpgradeIndex = 0;
         for (int i = 0; i < _upgradeLevels.Length; i++)
         {
             _upgradeLevels[i] = 0;
             upgradeCells[i].SetMax(false);
+            upgradeCells[i].SetSelect(false); 
         }
     }
 }

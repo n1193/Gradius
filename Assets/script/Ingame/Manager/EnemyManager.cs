@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private EnemyDatabase database;  // ScriptableObject参照
-    private readonly List<GameObject> enemies = new();
+    private readonly List<Enemy> enemies = new();
     DiContainer _container;
     /// <summary>
     /// 指定タイプの敵を生成して登録
@@ -25,7 +26,7 @@ public class EnemyManager : MonoBehaviour
             instance.AssignDropGroup(dropGroup);
             dropGroup.AddEnemy(instance);
         }
-        RegisterEnemy(instance.gameObject);
+        RegisterEnemy(instance);
         //Debug.Log($"EnemyManager.Spawn: type={type}, position={instance.transform.position}");
         return instance;
     }
@@ -33,7 +34,10 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (var e in enemies)
         {
-            if (e != null) Destroy(e.gameObject);
+            if (e != null)
+            {
+                e.Die(true);
+            }
         }
         enemies.Clear();
         Debug.Log("[EnemyManager] 全敵削除");
@@ -46,7 +50,7 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 生成された敵を登録
     /// </summary>
-    public void RegisterEnemy(GameObject enemy)
+    public void RegisterEnemy(Enemy enemy)
     {
         if (!enemies.Contains(enemy))
             enemies.Add(enemy);
@@ -55,7 +59,7 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 個別削除時などに呼ぶ
     /// </summary>
-    public void UnregisterEnemy(GameObject enemy)
+    public void UnregisterEnemy(Enemy enemy)
     {
         enemies.Remove(enemy);
     }
@@ -63,13 +67,14 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 全削除（リスポーン前など）
     /// </summary>
-    public void ClearAllEnemies()
+    public void ClearAllEnemies(bool score = false)
     {
         Debug.Log($"[EnemyManager] Clearing {enemies.Count} enemies.");
-        foreach (var e in enemies)
+        foreach (Enemy e in enemies)
         {
             if (e != null)
-                Destroy(e);
+             continue;    
+            Destroy(e);
         }
         enemies.Clear();
     }

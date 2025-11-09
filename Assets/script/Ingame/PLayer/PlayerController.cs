@@ -36,28 +36,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector3[] margin; // 画面端からのマージン(ワールド座標)
 
     public GameObject[] BulletArray = new GameObject[2];
+    
     private Upgrade _upgrade;
     private SoundManager soundManager;
+
     [SerializeField] private GameObject explosionPrefab;
 
     private List<BulletPool> mainShotBulletPool; // トリガ（メイン＋各オプションが購読）
     private BulletPool subShotBulletPool; // トリガ（メイン＋各オプションが購読）
-    DiContainer _container;
     PlayerLife playerLife;
+
+
     [Inject]
-    public void Construct(WeaponManager weaponManager, Upgrade upgrade, SoundManager soundManager, DiContainer container, PlayerLife playerLife)
+    public void Construct(WeaponManager weaponManager, Upgrade upgrade, SoundManager soundManager, PlayerLife playerLife)
     {
-        _container = container;
         this._upgrade = upgrade;
         this.weaponManager = weaponManager;
         this.soundManager = soundManager;
         this.playerLife = playerLife;
     }
 
-    void Start()
-    {
-        Initialize();
-    }
+    void Start() => Initialize();
+    
     public void Initialize()
     {
         transform.position = new Vector3(-6.47f, 0f, 0f);
@@ -76,7 +76,12 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.enabled = true;
         ClearOptions();
         shield?.DeleteShield();
-        Destroy(subShotBulletPool);
+        if (subShotBulletPool != null)
+        {
+            var go = subShotBulletPool.gameObject;
+            subShotBulletPool = null;               // 先に参照切り
+            Destroy(go);                            // ★ GameObject を破壊
+        }
         baseSpeed = 5f;
     }
 
@@ -282,11 +287,13 @@ public class PlayerController : MonoBehaviour
     }
     public void ClearOptions()
 {
-    foreach (var opt in _options)
-    {
-        if (opt != null)
-            Destroy(opt.gameObject);
-    }
+        foreach (var opt in _options)
+        {
+            if (opt != null)
+            {
+                Destroy(opt.gameObject);
+            }
+        }
     _options.Clear();
 }
 }

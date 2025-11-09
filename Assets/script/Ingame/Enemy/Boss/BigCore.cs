@@ -140,10 +140,10 @@ class BigCore : Enemy
     {
         ShotDelay -= Time.deltaTime;
         if (ShotDelay > 0) return;
-        bulletPool1.Fire(transform.position + new Vector3(0.8f, heightSize * 0.15f, 0), BulletOwner.Enemy);
+        bulletPool1.Fire(transform.position + new Vector3(1f, heightSize * 0.15f, 0), BulletOwner.Enemy);
         bulletPool2.Fire(transform.position + new Vector3(0.8f, heightSize * 0.4f, 0), BulletOwner.Enemy);
         bulletPool3.Fire(transform.position + new Vector3(0.8f, heightSize * -0.4f, 0), BulletOwner.Enemy);
-        bulletPool4.Fire(transform.position + new Vector3(0.8f, heightSize * -0.15f, 0), BulletOwner.Enemy);
+        bulletPool4.Fire(transform.position + new Vector3(1f, heightSize * -0.15f, 0), BulletOwner.Enemy);
 
         ShotDelay = ShotDelayMax;
     }

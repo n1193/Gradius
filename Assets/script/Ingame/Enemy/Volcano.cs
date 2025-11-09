@@ -10,7 +10,7 @@ public class Volcano : Enemy
     ScrollDirector scroll;
     [SerializeField] private GameObject[] ShotPosition;
     [SerializeField] string signalId = "volcano";
-    float lifetime = 16.0f; // 存在時間    
+    float lifetime = 5.0f; // 存在時間    
     float WaitTime = 7f; // 待機時間
     BulletPool bulletPool1;
     BulletPool bulletPool2;

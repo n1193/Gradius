@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEditor;
 
 public enum BulletOwner { Player, Enemy }
-
-
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public abstract class Bullet : MonoBehaviour

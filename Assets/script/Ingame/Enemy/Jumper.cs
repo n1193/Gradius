@@ -53,7 +53,7 @@ class Jumper : Enemy
 
         if (leftcount <= 0)
         {
-            direction = Vector2.right * 8;
+            direction = Vector2.right * 4;
             leftcount = LeftMax;
         }
         else

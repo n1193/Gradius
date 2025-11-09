@@ -19,8 +19,6 @@ public class BigCoreHitZone : MonoBehaviour
     {
         if (!other.CompareTag(Tags.PlayerBullet))
             return;
-
-
         // ここで最終処理へ通知（親の一元管理に渡すならイベント経由でもOK）
         switch (zoneType)
         {
@@ -30,7 +28,6 @@ public class BigCoreHitZone : MonoBehaviour
             /*case BossZoneType.Other:
                 break;*/
         }
-        Destroy(other.gameObject); // 弾を非アクティブにする
-        
+        //Destroy(other.gameObject); // 弾を非アクティブにする
     }
 }

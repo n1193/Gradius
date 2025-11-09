@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    private void Die(bool byPlayer)
+    public void Die(bool byPlayer)
     {
         //ScoreManager.Instance?.AddScore(score);
         if (byPlayer)

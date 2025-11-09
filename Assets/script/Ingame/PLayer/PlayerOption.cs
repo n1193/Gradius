@@ -32,6 +32,7 @@ public class PlayerOption : MonoBehaviour
             transform.position = player.position;
         }
     }
+
     public void Initialize(PlayerTrail playerTrail1, Transform transform, OptionIndex index)
     {
         mainShotBulletPool = new List<BulletPool>(); // ← 初期化！
@@ -67,10 +68,10 @@ public class PlayerOption : MonoBehaviour
     {
         foreach (var pool in mainShotBulletPool)
         {
-            pool.Fire(transform.position,BulletOwner.Player);
+            pool.Fire(transform.position, BulletOwner.Player);
         }
     }
-    public void FireSub() => subShotBulletPool?.Fire(transform.position,BulletOwner.Player);
+    public void FireSub() => subShotBulletPool?.Fire(transform.position, BulletOwner.Player);
     public void CleanMainShot()
     {
         foreach (BulletPool obj in mainShotBulletPool)
@@ -88,4 +89,10 @@ public class PlayerOption : MonoBehaviour
     {
         subShotBulletPool = bulletPool;
     }
+    public void Reset()
+    {
+        CleanMainShot();
+        Destroy(subShotBulletPool);
+    }
+
 }

@@ -14,7 +14,7 @@ public class ScrollDirector : MonoBehaviour
 
     SoundManager soundManager;
 
-    private float[] checkpointXs = { 0f, 130f, 250f };
+    private float[] checkpointXs = { 0f, 115f, 240f };
     private int currentCheckpointIndex = -1;
     public float CurrentCheckpointX { get; private set; } = 0f;
 
@@ -54,8 +54,8 @@ public class ScrollDirector : MonoBehaviour
     [SerializeField] float baseSpeed = 1f;   // 単位/秒（右方向に加算）
     [Tooltip("インスペクタで管理。x は右に進んだ距離（正）。")]
     List<Stop> stops =  new List<Stop> {
-        new Stop { x = 260f, kind = StopKind.WaitSignal,signalId="volcano"/*Timed,duration = 16f */},
-        new Stop { x = 281, kind = StopKind.WaitSignal,signalId="Boss"}
+        new Stop { x = 244f, kind = StopKind.WaitSignal,signalId="volcano"/*Timed,duration = 16f */},
+        new Stop { x = 268f, kind = StopKind.WaitSignal,signalId="Boss"}
     };
 
     [Header("Debug")]
@@ -91,10 +91,11 @@ public class ScrollDirector : MonoBehaviour
         if (!IsPaused)
         {
             X += baseSpeed * Time.deltaTime;
-            #if Unirrty_EDITOR
+        
+            #if UNITY_EDITOR
             if (Input.GetKey(KeyCode.I))
             {
-                X+=100;
+                //X+=100;
             }
             #endif
         }        
@@ -129,6 +130,14 @@ public class ScrollDirector : MonoBehaviour
             {
                 currentCheckpointIndex = i;
                 CurrentCheckpointX = checkpointXs[i];
+                if(currentCheckpointIndex==1)
+                {
+                    soundManager.StartSequenceFrom(BGMType.Ingame2);
+                }
+                else if(currentCheckpointIndex==2)
+                {
+                    soundManager.StartSequenceFrom(BGMType.Boss);
+                }
                 Debug.Log($"Checkpoint {i + 1} reached! X={CurrentCheckpointX}");
             }
         }

@@ -29834,6 +29834,10 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[8].clip
       value: 
       objectReference: {fileID: 8300000, guid: 09ffdf23c9d76c94aa3a89fb982c8496, type: 3}
@@ -29848,6 +29852,30 @@ PrefabInstance:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[9].type
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: beb712bac399b8a4ab6890cddc23c2c0, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 04699adcd9a751f44a9bdaf0c24d713a, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: b596b47a5960db647a995afac630666d, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4e76d71d6f005ca4283c58bd6a063f2a, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9a9349a497e8f3b42b8755e3d114a4ad, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[4].type
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[10].clip

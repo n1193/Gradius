@@ -61,7 +61,7 @@ class Ducker : Enemy
     void Move()
     {
         transform.position += (Vector3)direction * speed * Time.deltaTime;
-        Vector2 checkDirection = transform.position.y > 0 ? Vector2.up : Vector2.down;
+        Vector2 checkDirection = transform.position.y > 0 ? Vector2.up*2 : Vector2.down*2;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, checkDirection, groundCheckDistance, groundLayer);
         if (hit.collider != null)
         {

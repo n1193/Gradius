@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Zenject;
 using System;
+using UnityEditor.VisionOS;
 
 public class PlayerLife : MonoBehaviour
 {
@@ -28,9 +29,12 @@ public class PlayerLife : MonoBehaviour
 
     public void TakeDamage()
     {
+        StartCoroutine(Die());    
+    }
+    public void LifeDown()
+    {
         _hp--;
         hpText.text = _hp.ToString("D1");
-        StartCoroutine(Die());    
     }
 
     public void AddLife()

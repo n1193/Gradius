@@ -15,9 +15,7 @@ public class LaserBullet : Bullet
         {
             if (bulletPool != null & !isDead)
                 gameObject.SetActive(false);
-            else
-                Destroy(gameObject);
-
         }
     }
+
 }

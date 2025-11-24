@@ -275,9 +275,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.enabled = false;
 
         Instantiate(explosionPrefab, transform.position, transform.rotation, transform.parent);
-
         playerLife.TakeDamage();
-
         gameObject.SetActive(false);
     }
     public void ResetAt(Vector3 pos)

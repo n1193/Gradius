@@ -25,8 +25,8 @@ public class BigCoreHitZone : MonoBehaviour
             case BossZoneType.WeakPoint:
                 boss?.Damage();
                 break;
-            /*case BossZoneType.Other:
-                break;*/
+                /*case BossZoneType.Other:
+                    break;*/
         }
         //Destroy(other.gameObject); // 弾を非アクティブにする
     }

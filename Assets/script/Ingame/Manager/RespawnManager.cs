@@ -9,11 +9,13 @@ public class RespawnManager : MonoBehaviour
      private ScrollDirector scroll;
      private EnemyManager enemyManager;
      private EnemySpawner enemySpawner;
+     private PlayerLife playerLife;
     private Upgrade upgrade;
     DropManager dropManager;
     [Inject]
-    public void Construct(PlayerController player, ScrollDirector scroll, EnemyManager enemyManager, EnemySpawner enemySpawner, Upgrade upgrade, DropManager dropManager)
+    public void Construct(PlayerLife playerLife,PlayerController player, ScrollDirector scroll, EnemyManager enemyManager, EnemySpawner enemySpawner, Upgrade upgrade, DropManager dropManager)
     {
+        this.playerLife = playerLife;
         this.player = player;
         this.scroll = scroll;
         this.enemyManager = enemyManager;
@@ -25,6 +27,8 @@ public class RespawnManager : MonoBehaviour
     // GameManagerから呼ばれる
     public void OnPlayerDeath()
     {
+        playerLife.LifeDown();
+
         //再表示
         player.gameObject.SetActive(true);
         player.Initialize();

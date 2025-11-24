@@ -25,7 +25,7 @@ class Fan : Enemy
     void Start()
     {
         moveType = MoveType.MoveLeft; // 0または1のランダムな値を設定
-        direction = Vector2.left; // 左方向に移動   
+        direction = Vector2.left*1.2f; // 左方向に移動   
         spriteRenderer = GetComponent<SpriteRenderer>();
         CenterX = Camera.main.ViewportToWorldPoint(new Vector3(0.3f, 0f, 0f)).x;
     }
@@ -52,7 +52,7 @@ class Fan : Enemy
             float diff_y = transform.position.y - playerController.transform.position.y;
             if ((direction.y >= 0 ? diff_y >= 0 : diff_y < 0))
             {
-                direction = Vector2.right * 2.5f;
+                direction = Vector2.right * 3f;
                 direction.y = 0;
                 moveType = MoveType.MoveRight;
             }

@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 
 public enum BGMType { None = -1, Title, Ingame1, Ingame2, Boss ,BossLoop}
-public enum SEType { None = -1,Title,PlayerShot, Damage, EnemyDamage, Upgrade, BossDmage, EnemyDestroy, BossDestroy, GetUpgradeItem, PlayerDead,Laser,GameOver,Pause}
+public enum SEType { None = -1,Title,PlayerShot, Damage, EnemyDamage, Upgrade, BossDmage, EnemyDestroy, BossDestroy, GetUpgradeItem, PlayerDead,Laser,GameOver,Pause,Bomb}
 [Serializable] public class BGMEntry { public BGMType type; public AudioClip clip; }
 [Serializable] public class SEEntry  { public SEType  type; public AudioClip clip; }
 
@@ -178,10 +178,9 @@ seAudioSource.ignoreListenerPause = true;
 
         // 2曲目
         yield return PlayAndWaitForEnd(BGMType.Ingame2, fadeOutSeconds: 1.2f);
-        yield return PlayAndWaitForEnd(BGMType.Boss, fadeOutSeconds: 1.2f);
        
         // 3曲目（ボスはループ）
-        BGMPlay(BGMType.BossLoop, loop: true, fadeSeconds: 1.0f);
+        BGMPlay(BGMType.Boss, loop: true, fadeSeconds: 1.0f);
     }
 
     private IEnumerator CrossFadeRoutine(AudioSource from, AudioSource to, float seconds)
@@ -370,12 +369,12 @@ seAudioSource.ignoreListenerPause = true;
             // 2 から始めて、自然に Boss へ繋ぐ
             _ingameRoutine = StartCoroutine(InGameBGMPlayFrom2());
         }
-        else if (startType == BGMType.Boss)
+        /*else if (startType == BGMType.Boss)
         {
             // いきなり Boss 常駐（必要なら）
             _ingameRoutine = StartCoroutine(InGameBGMPlayFrom2());
-        }
-        else if (startType == BGMType.BossLoop)
+        }*/
+        else if (startType == BGMType.Boss)
         {
             // いきなり Boss 常駐（必要なら）
             BGMPlay(BGMType.Boss, loop: true, fadeSeconds: fadeSeconds, restartIfSame: true);
@@ -399,7 +398,7 @@ seAudioSource.ignoreListenerPause = true;
         yield return PlayAndWaitForEnd(BGMType.Boss, fadeOutSeconds: 1.2f);
 
         // 3曲目（= Boss）はループで常駐
-        BGMPlay(BGMType.BossLoop, loop: true, fadeSeconds: 1.0f, restartIfSame: true);
+        BGMPlay(BGMType.Boss, loop: true, fadeSeconds: 1.0f, restartIfSame: true);
 
         // Boss で居座るのでループ巡回不要
         _ingameRoutine = null;

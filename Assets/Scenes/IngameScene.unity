@@ -29831,7 +29831,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: bgmclip.Array.size
@@ -29848,7 +29848,7 @@ PrefabInstance:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[9].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 76412e149c1ad6d48b468019d1bc5ff2, type: 3}
+      objectReference: {fileID: 8300000, guid: 690a646e692a26c43ba09c492ebb506a, type: 3}
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[9].type
       value: 11
@@ -29868,7 +29868,7 @@ PrefabInstance:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: bgmclip.Array.data[3].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 4e76d71d6f005ca4283c58bd6a063f2a, type: 3}
+      objectReference: {fileID: 8300000, guid: 9a9349a497e8f3b42b8755e3d114a4ad, type: 3}
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: bgmclip.Array.data[4].clip
       value: 
@@ -29884,6 +29884,14 @@ PrefabInstance:
     - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: seclip.Array.data[10].type
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[11].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8defe74a6ee6e9b49bb76d8825fa0506, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[11].type
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5404241664077866655, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: m_Name

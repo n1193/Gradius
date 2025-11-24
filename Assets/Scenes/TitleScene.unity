@@ -127,6 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[8].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d14dd2ac098b91543b0da19963c65de7, type: 3}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: seclip.Array.data[8].type
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 181400268544423556, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
+      propertyPath: bgmclip.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: beb712bac399b8a4ab6890cddc23c2c0, type: 3}
     - target: {fileID: 5404241664077866655, guid: 014bc1f614436fa4996ad02cf02bc76e, type: 3}
       propertyPath: m_Name
       value: SoundManagher

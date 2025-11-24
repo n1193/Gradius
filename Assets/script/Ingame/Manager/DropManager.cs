@@ -12,7 +12,7 @@ public class DropManager : MonoBehaviour
     [SerializeField] Transform parent; // 落とすグループの総数
     int dropcount = 0;
     private List<DropGroup> groups = new();
-    private const int enemyClearEffectCount = 13;
+    private const int enemyClearEffectCount = 24;
     [Inject] DiContainer _container;
 
     List<GameObject> Items = new();
